@@ -11,8 +11,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r2"
-  OutFile "udp4all-r2.exe"
+  Name "udp4all-r3"
+  OutFile "udp4all-r3.exe"
   Icon "C:\Marum\progs\udp4all\src\images\udp4all.ico"
   XPStyle on
   
@@ -67,11 +67,12 @@ Section "udp4all" SecDummy
   
   ;ADD YOUR OWN FILES HERE...
   File C:\Marum\progs\udp4all\bin\udp4all.exe
-  File C:\Programme\Qt\2009.05\qt\bin\QtGui4.dll 
-  File C:\Programme\Qt\2009.05\qt\bin\QtCore4.dll
-  File C:\Programme\Qt\2009.05\qt\bin\mingwm10.dll
-  File C:\Programme\Qt\2009.05\qt\bin\QtNetwork4.dll
-  File C:\Programme\Qt\2009.05\mingw\bin\libgcc_s_dw2-1.dll 
+  File C:\Programme\Qt\2010.01\qt\bin\QtGui4.dll 
+  File C:\Programme\Qt\2010.01\qt\bin\QtCore4.dll
+  File C:\Programme\Qt\2010.01\qt\bin\mingwm10.dll
+  File C:\Programme\Qt\2010.01\qt\bin\QtNetwork4.dll
+  File C:\Programme\Qt\2010.01\mingw\bin\libgcc_s_dw2-1.dll 
+  File C:\Marum\progs\udp4all\u4a-example.conf
   
 
   ;Store installation folder

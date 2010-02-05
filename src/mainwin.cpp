@@ -74,10 +74,13 @@ void MainWin::loadConfiguration(QSettings& settings)
 		settings.setArrayIndex(i);
 		s = settings.value("Target" ).toString();
 		quint16 port = s.section(':', 1).toInt(&ok);
-		if (ok) {
+		QHostAddress ha(s.section(':', 0, 0));
+		if (ok && !ha.isNull()) {
 			ui.textEdit->append("<b>Add Target: " + s + "</b>");
 			targets.append(QPair<QHostAddress, qint16>(QHostAddress(s.section(':', 0, 0)), port));
-		}
+		} else {
+			ui.textEdit->append("<b><FONT COLOR=\"#FF0000\">Invalid Target: " + s + "</FONT></b>");
+		}	
 	}
 	settings.endArray();
 }
