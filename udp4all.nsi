@@ -53,7 +53,7 @@
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.7.10"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.1.3"
 
 ;--------------------------------
 

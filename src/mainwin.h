@@ -2,10 +2,10 @@
  *  file:		mainwin.h
  *  author:		jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #ifndef MAINWIN_H

@@ -2,10 +2,10 @@
  *  file:		mainwin.cpp
  *  author:		jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #include "mainwin.h"
@@ -144,9 +144,9 @@ void MainWin::on_actionSave_triggered()
 void MainWin::on_actionAbout_triggered()
 {
     QString versionInfo = 	"<B>udp4all</B><p>"
-                            "$Rev: 80 $<p>"
-                            "$Date: 2009-12-01 20:18:59 +0100 (Di, 01. Dez 2009) $<p>"
-                            "$Author: jrenken $   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
+                            "$Rev$<p>"
+                            "$Date$<p>"
+                            "$Author$   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
 							"(C) <i>Copyright 2010</i>, <b>University of Bremen, Marum</b>";
     QMessageBox::about ( this,
                     "About posiview2", versionInfo.replace('$', ' '));

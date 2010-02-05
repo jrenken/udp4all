@@ -1,3 +1,13 @@
+/*
+ *  file:		main.cpp
+ *  author:		jrenken
+ *
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
+ */
+
 #include "mainwin.h"
 
 #include <QtGui>
