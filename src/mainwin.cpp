@@ -32,11 +32,23 @@ MainWin::MainWin(QWidget *parent)
 	connect(this, SIGNAL(datagramCountChanged(int)),
 			ui.labelDatagrams, SLOT(setNum(int)));
 	loadConfiguration(settings);
+
+	trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(ui.actionExit);
+
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setContextMenu(trayIconMenu);
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+             this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
+	trayIcon->setIcon(QIcon(":/images/images/udp4all.png"));
+	trayIcon->show();
 }
 
 MainWin::~MainWin()
 {
 }
+
 
 void MainWin::readPendingDatagrams()
 {
@@ -174,3 +186,16 @@ void MainWin::closeEvent(QCloseEvent *event)
 
 }
 
+void MainWin::iconActivated(QSystemTrayIcon::ActivationReason reason)
+ {
+     switch (reason) {
+     case QSystemTrayIcon::Trigger:
+     case QSystemTrayIcon::DoubleClick:
+    	 setVisible(!isVisible());
+    	 break;
+     case QSystemTrayIcon::MiddleClick:
+         break;
+     default:
+         ;
+     }
+ }

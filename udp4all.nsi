@@ -11,8 +11,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r3"
-  OutFile "udp4all-r3.exe"
+  Name "udp4all-r4"
+  OutFile "udp4all-r4.exe"
   Icon "C:\Marum\progs\udp4all\src\images\udp4all.ico"
   XPStyle on
   

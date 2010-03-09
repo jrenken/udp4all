@@ -16,6 +16,7 @@
 #include <QPair>
 #include <QList>
 #include <QHostAddress>
+#include <QSystemTrayIcon>
 #include "ui_mainwin.h"
 
 class QSettings;
@@ -27,6 +28,7 @@ class MainWin : public QMainWindow
 public:
     MainWin(QWidget *parent = 0);
     ~MainWin();
+
 
 signals:
     void datagramCountChanged(int);
@@ -40,6 +42,7 @@ public slots:
 
 private slots:
 	void readPendingDatagrams();
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     Ui::MainWinClass 	ui;
@@ -47,6 +50,8 @@ private:
     int					mDgramCount;
     QPair<QHostAddress, quint16>			source;
     QList< QPair<QHostAddress, qint16> >	targets;
+    QSystemTrayIcon *	trayIcon;
+    QMenu *				trayIconMenu;
 
     void closeEvent(QCloseEvent *event);
     void loadConfiguration(QSettings& settings);
