@@ -2,10 +2,10 @@
  *  file:	forwardmanager.h
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #ifndef FORWARDMANAGER_H_
@@ -32,12 +32,17 @@ public:
 		return mForwarders.keys();
 	}
 
+	void setMonitor(const QString& forw, bool mon);
+	bool monitor(const QString& forw) const;
+
 public slots:
 	void bindAll();
 	void releaseAll();
 
 signals:
 	void newMessage(const QString& msg);
+	void newRecMonitorData(const QByteArray& data);
+	void newSendMonitorData(const QByteArray& data);
 
 private:
 	QMap<QString, UdpForwarder*>	mForwarders;

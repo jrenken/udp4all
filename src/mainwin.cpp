@@ -9,6 +9,7 @@
  */
 
 #include "mainwin.h"
+#include "svnversion.h"
 #include <QMessageBox>
 #include <QSettings>
 #include <QCloseEvent>
@@ -38,6 +39,7 @@ MainWin::MainWin(QWidget *parent)
 			ui.textEdit, SLOT(append(const QString&)));
 	mManager->loadConfiguration(settings);
 	mManager->bindAll();
+	mManager->setMonitor("PISE", true);
 
 	trayIconMenu = new QMenu(this);
     trayIconMenu->addAction(ui.actionExit);
@@ -164,15 +166,13 @@ void MainWin::on_actionSave_triggered()
 
 void MainWin::on_actionAbout_triggered()
 {
-    QString versionInfo = 	"<B>udp4all</B><p>"
-                            "$Rev$<p>"
-                            "$Date$<p>"
+    QString versionInfo =   "<B>udp4all</B><p>"
+                            "Rev: "SVNVERSION" $<p>"
+                            "Date: "SVNDATE" $<p>"
                             "$Author$   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
-							"(C) <i>Copyright 2010</i>, <b>University of Bremen, Marum</b>";
+                            "(C) <i>Copyright 2011</i>, <b>University of Bremen, Marum</b>";
     QMessageBox::about ( this,
-                    "About posiview2", versionInfo.replace('$', ' '));
-
-
+                    "About udp4all", versionInfo.replace('$', ' '));
 }
 
 void MainWin::on_actionMonitor_triggered()

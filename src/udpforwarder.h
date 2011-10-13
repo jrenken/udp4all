@@ -2,10 +2,10 @@
  *  file:	udpforwarder.h
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #ifndef UDPFORWARDER_H_
@@ -42,6 +42,17 @@ public:
 
 	void addTarget(const QString& addr, quint16 port);
 
+	QPair<int, int>	statistics() const {
+		return qMakePair(mRecCount, mSendCount);
+	}
+
+	bool monitor() const {
+		return mMonitor;
+	}
+	void setMonitor(bool mon) {
+		mMonitor = mon;
+	}
+
 public slots:
 	void handleData(const QByteArray& data);
 	bool bindSocket();
@@ -50,6 +61,8 @@ public slots:
 signals:
 	void newData(const QByteArray& data);
 	void newMessage(const QString& msg);
+	void newRecMonitorData(const QByteArray& data);
+	void newSendMonitorData(const QByteArray& data);
 
 private slots:
 	void readPendingDatagrams();
@@ -58,6 +71,7 @@ private:
     QUdpSocket			mSocket;
     int					mRecCount;
     int					mSendCount;
+    bool				mMonitor;
 
     QPair<QHostAddress, quint16>			mSource;
     QList< QPair<QHostAddress, quint16> >	mTargets;

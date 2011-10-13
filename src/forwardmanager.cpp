@@ -2,10 +2,10 @@
  *  file:	forwardmanager.cpp
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #include <QSettings>
@@ -121,4 +121,30 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type)
 		return new Gaps2MsfProcessor();
 	}
 	return 0;
+}
+
+void ForwardManager::setMonitor(const QString& forw, bool mon)
+{
+	UdpForwarder *forwarder = mForwarders.value(forw);
+	if (forwarder) {
+		if (mon) {
+			connect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)),
+					SIGNAL(newRecMonitorData(const QByteArray&)));
+			connect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)),
+					SIGNAL(newSendMonitorData(const QByteArray&)));
+		} else {
+			disconnect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)), 0, 0);
+			disconnect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)), 0, 0);
+
+		}
+		forwarder->setMonitor(mon);
+	}
+}
+
+bool ForwardManager::monitor(const QString& forw) const
+{
+	UdpForwarder *forwarder = mForwarders.value(forw);
+	if (forwarder)
+		return forwarder->monitor();
+	return false;
 }

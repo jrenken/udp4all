@@ -2,10 +2,10 @@
  *  file:	udpforwarder.cpp
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #include <QTimer>
@@ -17,6 +17,7 @@ UdpForwarder::UdpForwarder(const QString& name, QObject *parent)
 	: QObject(parent),
 	  mRecCount(0),
 	  mSendCount(0),
+	  mMonitor(false),
 	  mProcessor(0)
 {
 	setObjectName(name);
@@ -87,6 +88,9 @@ void UdpForwarder::handleData(const QByteArray& data)
 	QByteArray procData;
 
 	mRecCount++;
+	if (mMonitor) {
+		emit newRecMonitorData(data);
+	}
 	if (mProcessor) {
 		procData = mProcessor->processData(data);
 	} else {
@@ -95,6 +99,9 @@ void UdpForwarder::handleData(const QByteArray& data)
 	if (!procData.isEmpty()) {
 		mSendCount++;
 		emit newData(procData);
+		if (mMonitor) {
+			emit newSendMonitorData(data);
+		}
 		QPair<QHostAddress, quint16> target;
 		foreach (target, mTargets) {
 			mSocket.writeDatagram(procData, target.first, target.second);
