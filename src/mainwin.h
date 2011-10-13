@@ -17,6 +17,7 @@
 #include <QList>
 #include <QHostAddress>
 #include <QSystemTrayIcon>
+#include "forwardmanager.h"
 #include "ui_mainwin.h"
 
 class QSettings;
@@ -52,7 +53,7 @@ private:
     QList< QPair<QHostAddress, qint16> >	targets;
     QSystemTrayIcon *	trayIcon;
     QMenu *				trayIconMenu;
-
+    ForwardManager*		mManager;
     void closeEvent(QCloseEvent *event);
     void loadConfiguration(QSettings& settings);
     void saveConfiguration(QSettings& settings);

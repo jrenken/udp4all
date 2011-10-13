@@ -27,11 +27,17 @@ MainWin::MainWin(QWidget *parent)
 
 	move(settings.value("pos", QPoint(200, 200)).toPoint());
 	resize(settings.value("size", QSize(800, 600)).toSize());
-	connect(&mSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
-	connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-	connect(this, SIGNAL(datagramCountChanged(int)),
-			ui.labelDatagrams, SLOT(setNum(int)));
-	loadConfiguration(settings);
+//	connect(&mSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
+//	connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+//	connect(this, SIGNAL(datagramCountChanged(int)),
+//			ui.labelDatagrams, SLOT(setNum(int)));
+//	loadConfiguration(settings);
+
+	mManager = new ForwardManager(this);
+	connect(mManager, SIGNAL(newMessage(const QString&)),
+			ui.textEdit, SLOT(append(const QString&)));
+	mManager->loadConfiguration(settings);
+	mManager->bindAll();
 
 	trayIconMenu = new QMenu(this);
     trayIconMenu->addAction(ui.actionExit);
