@@ -16,6 +16,7 @@
 #include <QPair>
 #include <QHostAddress>
 #include <QUdpSocket>
+#include <QStringList>
 #include "dataprocessor.h"
 
 
@@ -39,8 +40,18 @@ public:
 	quint16 port() const {
 		return mSource.second;
 	}
-
+	QString source() const;
+	QString targets() const;
+	QString inputs() const;
+	QString processor() const;
+	bool bound() const {
+		return (mSocket.state() == QAbstractSocket::BoundState);
+	}
 	void addTarget(const QString& addr, quint16 port);
+
+	void addInput(const QString& input) {
+		mInputs.append(input);
+	}
 
 	QPair<int, int>	statistics() const {
 		return qMakePair(mRecCount, mSendCount);
@@ -75,6 +86,7 @@ private:
 
     QPair<QHostAddress, quint16>			mSource;
     QList< QPair<QHostAddress, quint16> >	mTargets;
+    QStringList								mInputs;
     DataProcessor*							mProcessor;
 };
 

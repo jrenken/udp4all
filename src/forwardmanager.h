@@ -16,6 +16,7 @@
 #include <QMap>
 #include "udpforwarder.h"
 #include "dataprocessor.h"
+#include "forwardermodel.h"
 
 class QSettings;
 
@@ -33,8 +34,12 @@ public:
 	}
 
 	void setMonitor(const QString& forw, bool mon);
+	void setMonitor(bool mon);
 	bool monitor(const QString& forw) const;
 
+	QAbstractItemModel* model() const {
+		return mForwarderModel;
+	}
 public slots:
 	void bindAll();
 	void releaseAll();
@@ -46,7 +51,7 @@ signals:
 
 private:
 	QMap<QString, UdpForwarder*>	mForwarders;
-
+	ForwarderModel*					mForwarderModel;
 	void createForwarders(QSettings& settings);
 	void connectForwarders(QSettings& settings);
 	void bindForwarders();

@@ -42,8 +42,10 @@ public slots:
 	void on_actionSave_triggered();
 
 private slots:
-	void readPendingDatagrams();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void displayRecMonitorData(const QByteArray& data);
+    void displaySendMonitorData(const QByteArray& data);
+	void onCurrentChanged(const QModelIndex & current, const QModelIndex &  );
 
 private:
     Ui::MainWinClass 	ui;
@@ -55,8 +57,6 @@ private:
     QMenu *				trayIconMenu;
     ForwardManager*		mManager;
     void closeEvent(QCloseEvent *event);
-    void loadConfiguration(QSettings& settings);
-    void saveConfiguration(QSettings& settings);
     void bindSocket();
 };
 

@@ -32,6 +32,42 @@ UdpForwarder::~UdpForwarder()
 }
 
 
+QString UdpForwarder::source() const
+{
+	if (mSource.first.isNull())
+		return "none";
+	return QString("%1:%2").arg(mSource.first.toString()).arg(mSource.second);
+}
+
+QString UdpForwarder::targets() const
+{
+	if (mTargets.isEmpty())
+		return "none";
+	QString s;
+	QPair<QHostAddress, quint16> target;
+
+	foreach (target, mTargets) {
+		s.append(QString("%1:%2 ").arg(target.first.toString()).arg(target.second));
+	}
+	return s;
+}
+
+QString UdpForwarder::inputs() const
+{
+	if (mInputs.isEmpty())
+		return "none";
+
+	return mInputs.join(" ");
+}
+
+QString UdpForwarder::processor() const
+{
+	if (mProcessor == 0)
+		return "none";
+
+	return mProcessor->typeName();
+}
+
 void UdpForwarder::setSource(const QString& addr, quint16 port)
 {
 	mSource.first.setAddress(addr);
@@ -85,7 +121,7 @@ void UdpForwarder::releaseSocket()
 
 void UdpForwarder::handleData(const QByteArray& data)
 {
-	QByteArray procData;
+	QList<QByteArray> procData;
 
 	mRecCount++;
 	if (mMonitor) {
@@ -94,17 +130,19 @@ void UdpForwarder::handleData(const QByteArray& data)
 	if (mProcessor) {
 		procData = mProcessor->processData(data);
 	} else {
-		procData = data;
+		procData.append(data);
 	}
 	if (!procData.isEmpty()) {
-		mSendCount++;
-		emit newData(procData);
-		if (mMonitor) {
-			emit newSendMonitorData(data);
-		}
-		QPair<QHostAddress, quint16> target;
-		foreach (target, mTargets) {
-			mSocket.writeDatagram(procData, target.first, target.second);
+		foreach (QByteArray ba, procData) {
+			mSendCount++;
+			emit newData(ba);
+			if (mMonitor) {
+				emit newSendMonitorData(ba);
+			}
+			QPair<QHostAddress, quint16> target;
+			foreach (target, mTargets) {
+				mSocket.writeDatagram(ba, target.first, target.second);
+			}
 		}
 	}
 }

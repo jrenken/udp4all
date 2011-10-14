@@ -3,12 +3,14 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += forwardmanager.h \
+HEADERS += forwardermodel.h \
+	forwardmanager.h \
     dataprocessor.h \
     udpforwarder.h \
     mainwin.h \
     svnversion.h
-SOURCES += forwardmanager.cpp \
+SOURCES += forwardermodel.cpp \
+	forwardmanager.cpp \
     dataprocessor.cpp \
     udpforwarder.cpp \
     main.cpp \

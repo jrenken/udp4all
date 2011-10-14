@@ -16,6 +16,7 @@ ForwardManager::ForwardManager(QObject *parent)
 	: QObject(parent)
 {
 	setObjectName("ForwardManager");
+	mForwarderModel = new ForwarderModel(&mForwarders, this);
 }
 
 
@@ -50,6 +51,11 @@ void ForwardManager::createForwarders(QSettings& settings)
 		UdpForwarder *forwarder = new UdpForwarder(s, this);
 		connect(forwarder, SIGNAL(newMessage(const QString&)), SIGNAL(newMessage(const QString&)));
 		emit newMessage(tr("ForwardManager:createForwarder:%1").arg(forwarder->objectName()));
+
+		connect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)),
+				SIGNAL(newRecMonitorData(const QByteArray&)));
+		connect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)),
+				SIGNAL(newSendMonitorData(const QByteArray&)));
 
 		s = settings.value("Source").toString();
 		if (!s.isEmpty()) {
@@ -89,6 +95,7 @@ void ForwardManager::connectForwarders(QSettings& settings)
 				s = v.toString();
 				UdpForwarder* sforwarder = mForwarders.value(s);
 				if (sforwarder && (sforwarder != forwarder)) {
+					forwarder->addInput(s);
 					connect(sforwarder, SIGNAL(newData(const QByteArray&)),
 							forwarder, SLOT(handleData(const QByteArray&)));
 					emit newMessage(tr("ForwardManager:connectForwarder:%1 -> %2")
@@ -119,24 +126,23 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type)
 {
 	if (type == "Gaps2Msf") {
 		return new Gaps2MsfProcessor();
+	} else if (type == "LineSplit") {
+		return new LineSplitProcessor();
 	}
 	return 0;
+}
+
+void ForwardManager::setMonitor(bool mon)
+{
+	foreach (UdpForwarder* fw, mForwarders.values()) {
+		fw->setMonitor(mon);
+	}
 }
 
 void ForwardManager::setMonitor(const QString& forw, bool mon)
 {
 	UdpForwarder *forwarder = mForwarders.value(forw);
 	if (forwarder) {
-		if (mon) {
-			connect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)),
-					SIGNAL(newRecMonitorData(const QByteArray&)));
-			connect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)),
-					SIGNAL(newSendMonitorData(const QByteArray&)));
-		} else {
-			disconnect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)), 0, 0);
-			disconnect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)), 0, 0);
-
-		}
 		forwarder->setMonitor(mon);
 	}
 }

@@ -1,5 +1,6 @@
 <RCC>
-  <qresource prefix="images" >
+  <qresource prefix="images">
+    <file>images/network-disconnect.png</file>
     <file>images/network-connect.png</file>
     <file>images/udp4all.png</file>
     <file>images/exit.png</file>

@@ -2,10 +2,10 @@
  *  file:	dataprocessor.h
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #ifndef DATAPROCESSOR_H_
@@ -13,6 +13,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QList>
 
 class DataProcessor
 {
@@ -22,7 +23,7 @@ public:
 	virtual QString	typeName() const {
 		return "Raw";
 	}
-	virtual QByteArray processData(const QByteArray& data);
+	virtual QList<QByteArray> processData(const QByteArray& data);
 };
 
 
@@ -32,7 +33,16 @@ public:
 	virtual QString	typeName() const {
 		return "Gaps2Msf";
 	}
-	virtual QByteArray processData(const QByteArray& data);
+	virtual QList<QByteArray> processData(const QByteArray& data);
+};
+
+class LineSplitProcessor : public DataProcessor
+{
+public:
+	virtual QString	typeName() const {
+		return "Gaps2Msf";
+	}
+	virtual QList<QByteArray> processData(const QByteArray& data);
 };
 
 #endif /* DATAPROCESSOR_H_ */
