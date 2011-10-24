@@ -17,7 +17,7 @@
 #include <QItemSelectionModel>
 #include <QDebug>
 
-
+#include "nmearecord.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent),
@@ -58,6 +58,7 @@ MainWin::MainWin(QWidget *parent)
 
 	trayIcon->setIcon(QIcon(":/images/images/udp4all.png"));
 	trayIcon->show();
+
 }
 
 MainWin::~MainWin()

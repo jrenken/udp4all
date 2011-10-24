@@ -14,6 +14,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QList>
+#include "nmearecord.h"
 
 class DataProcessor
 {
@@ -30,17 +31,20 @@ public:
 class Gaps2MsfProcessor : public DataProcessor
 {
 public:
+    Gaps2MsfProcessor();
 	virtual QString	typeName() const {
 		return "Gaps2Msf";
 	}
 	virtual QList<QByteArray> processData(const QByteArray& data);
+private:
+	NmeaRecord  mMsf;
 };
 
 class LineSplitProcessor : public DataProcessor
 {
 public:
 	virtual QString	typeName() const {
-		return "Gaps2Msf";
+		return "LineSplit";
 	}
 	virtual QList<QByteArray> processData(const QByteArray& data);
 };

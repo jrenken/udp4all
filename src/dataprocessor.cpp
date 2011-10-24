@@ -10,6 +10,7 @@
 
 #include "dataprocessor.h"
 #include <QDebug>
+
 DataProcessor::DataProcessor()
 {
 }
@@ -24,10 +25,35 @@ QList<QByteArray> DataProcessor::processData(const QByteArray& data)
 	list.append(data);
 	return list;
 }
+Gaps2MsfProcessor::Gaps2MsfProcessor()
+    : DataProcessor()
+{
+    mMsf.setRecord(QByteArray("$MSF,,,SHIP,Meteor,MSF0,,,,,,,,,,"));
+    qDebug() << mMsf.sentence(true);
+}
 
 QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
 {
-	return DataProcessor::processData(data);
+    QList<QByteArray> list = data.split('\n');
+    QList<QByteArray> out;
+     foreach (QByteArray ba, list) {
+        NmeaRecord n(ba);
+        qDebug() << n.sentence(true);
+        if (n.header() == "$PTSAG") {
+            if (n[6].toInt() == 0) {
+                mMsf[1] = n[5] + n[4] + n[3];
+                mMsf[2] = n[2];
+            }
+        } else if (n.header() == "$PTSAH") {
+            mMsf[10] = n[2];
+            out.append(mMsf.sentence(true));
+        } else if (n.header() == "$HEHDT") {
+            mMsf[10] = n[1];
+            out.append(mMsf.sentence(true));
+        }
+    }
+//    qDebug() << out;
+    return out;
 }
 
 QList<QByteArray> LineSplitProcessor::processData(const QByteArray& data)

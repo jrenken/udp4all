@@ -3,14 +3,16 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += forwardermodel.h \
-	forwardmanager.h \
+HEADERS += nmearecord.h \
+    forwardermodel.h \
+    forwardmanager.h \
     dataprocessor.h \
     udpforwarder.h \
     mainwin.h \
     svnversion.h
-SOURCES += forwardermodel.cpp \
-	forwardmanager.cpp \
+SOURCES += nmearecord.cpp \
+    forwardermodel.cpp \
+    forwardmanager.cpp \
     dataprocessor.cpp \
     udpforwarder.cpp \
     main.cpp \
@@ -25,6 +27,5 @@ svnversion.target = svnver
 svnversion.commands = ../mksvnver
 QMAKE_EXTRA_TARGETS += svnversion
 PRE_TARGETDEPS += svnver
-
 target.path = /usr/local/bin
 INSTALLS += target
