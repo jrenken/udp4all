@@ -2,10 +2,10 @@
  *  file:	nmearecord.h
  *  author:	jrenken
  *
- *  $Rev:$
- *  $Author:$
- *  $Date:$
- *  $Id:$
+ *  $Rev$
+ *  $Author$
+ *  $Date$
+ *  $Id$
  */
 
 #ifndef NMEARECORD_H_
@@ -50,6 +50,10 @@ public:
 
     bool isValid() const;
     QByteArray header() const;
+
+    bool isEmpty() const {
+    	return (mFields.size() == 0);
+    }
 
 private:
     QList<QByteArray>   mFields;

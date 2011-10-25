@@ -55,7 +55,7 @@ private:
 	void createForwarders(QSettings& settings);
 	void connectForwarders(QSettings& settings);
 	void bindForwarders();
-	DataProcessor* createDataProcessor(const QString& type);
+	DataProcessor* createDataProcessor(const QString& type, const QString& par = QString());
 };
 
 #endif /* FORWARDMANAGER_H_ */

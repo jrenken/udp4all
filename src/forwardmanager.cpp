@@ -62,7 +62,9 @@ void ForwardManager::createForwarders(QSettings& settings)
 			forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
 		}
 
-		forwarder->setDataProcessor(createDataProcessor(settings.value("Processor").toString()));
+		forwarder->setDataProcessor(
+				createDataProcessor(settings.value("Processor").toString(),
+						settings.value("Processor.Parameter").toString()));
 
 		QVariantList vl = settings.value("Targets").toList();
 		if (vl.isEmpty()) {
@@ -122,12 +124,12 @@ void ForwardManager::releaseAll()
 	}
 }
 
-DataProcessor* ForwardManager::createDataProcessor(const QString& type)
+DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QString& par)
 {
 	if (type == "Gaps2Msf") {
-		return new Gaps2MsfProcessor();
+		return new Gaps2MsfProcessor(par);
 	} else if (type == "LineSplit") {
-		return new LineSplitProcessor();
+		return new LineSplitProcessor(par);
 	}
 	return 0;
 }

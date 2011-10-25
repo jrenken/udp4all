@@ -19,7 +19,7 @@
 class DataProcessor
 {
 public:
-	DataProcessor();
+	DataProcessor(const QString& parList = QString() );
 	virtual ~DataProcessor();
 	virtual QString	typeName() const {
 		return "Raw";
@@ -31,7 +31,7 @@ public:
 class Gaps2MsfProcessor : public DataProcessor
 {
 public:
-    Gaps2MsfProcessor();
+    Gaps2MsfProcessor(const QString& parList = QString());
 	virtual QString	typeName() const {
 		return "Gaps2Msf";
 	}
@@ -43,6 +43,7 @@ private:
 class LineSplitProcessor : public DataProcessor
 {
 public:
+	LineSplitProcessor(const QString& parList = QString());
 	virtual QString	typeName() const {
 		return "LineSplit";
 	}

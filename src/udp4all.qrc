@@ -7,4 +7,7 @@
     <file>images/fileopen.png</file>
     <file>images/filesave.png</file>
   </qresource>
+  <qresource prefix="config">
+    <file>udp4all.conf</file>
+  </qresource>
 </RCC>
