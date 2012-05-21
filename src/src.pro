@@ -23,9 +23,11 @@ RC_FILE = udp4all.rc
 OBJECTS_DIR = ../obj
 DESTDIR = ../bin
 MOC_DIR = moc
-svnversion.target = svnver
-svnversion.commands = ../mksvnver
-QMAKE_EXTRA_TARGETS += svnversion
-PRE_TARGETDEPS += svnver
-target.path = /usr/local/bin
-INSTALLS += target
+unix {
+	svnversion.target = svnver
+	svnversion.commands = ../mksvnver
+	QMAKE_EXTRA_TARGETS += svnversion
+	PRE_TARGETDEPS += svnver
+	target.path = /usr/local/bin
+	INSTALLS += target
+}

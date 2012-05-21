@@ -11,9 +11,9 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r4"
-  OutFile "udp4all-r4.exe"
-  Icon "C:\Marum\progs\udp4all\src\images\udp4all.ico"
+  Name "udp4all-r10"
+  OutFile "udp4all-r10.exe"
+  Icon "src\images\udp4all.ico"
   XPStyle on
   
   ;Default installation folder
@@ -31,7 +31,7 @@
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "C:\Marum\progs\udp4all\lgpl-2.1.txt"
+  !insertmacro MUI_PAGE_LICENSE "lgpl-2.1.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
@@ -46,14 +46,14 @@
 ;--------------------------------
 ;Version Information
 
-  VIProductVersion "0.7.10.0"
+  VIProductVersion "0.1.0.0"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "udp4all"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Quick and Dirty"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.1.3"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.1.0"
 
 ;--------------------------------
 
@@ -66,13 +66,13 @@ Section "udp4all" SecDummy
   SetOutPath "$INSTDIR"
   
   ;ADD YOUR OWN FILES HERE...
-  File C:\Marum\progs\udp4all\bin\udp4all.exe
-  File C:\Programme\Qt\2010.01\qt\bin\QtGui4.dll 
-  File C:\Programme\Qt\2010.01\qt\bin\QtCore4.dll
-  File C:\Programme\Qt\2010.01\qt\bin\mingwm10.dll
-  File C:\Programme\Qt\2010.01\qt\bin\QtNetwork4.dll
-  File C:\Programme\Qt\2010.01\mingw\bin\libgcc_s_dw2-1.dll 
-  File C:\Marum\progs\udp4all\u4a-example.conf
+  File bin\udp4all.exe
+  File C:\Programme\Qt\2010.05\qt\bin\QtGui4.dll 
+  File C:\Programme\Qt\2010.05\qt\bin\QtCore4.dll
+  File C:\Programme\Qt\2010.05\qt\bin\mingwm10.dll
+  File C:\Programme\Qt\2010.05\qt\bin\QtNetwork4.dll
+  File C:\Programme\Qt\2010.05\mingw\bin\libgcc_s_dw2-1.dll 
+  File u4a-example.conf
   
 
   ;Store installation folder
