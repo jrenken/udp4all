@@ -130,6 +130,8 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QS
 		return new Gaps2MsfProcessor(par);
 	} else if (type == "LineSplit") {
 		return new LineSplitProcessor(par);
+	} else if (type == "Gaps2Gps") {
+		return new Gaps2GpsProcessor(par);
 	}
 	return 0;
 }

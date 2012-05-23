@@ -11,8 +11,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r10"
-  OutFile "udp4all-r10.exe"
+  Name "udp4all-r11"
+  OutFile "udp4all-r11.exe"
   Icon "src\images\udp4all.ico"
   XPStyle on
   
@@ -46,14 +46,14 @@
 ;--------------------------------
 ;Version Information
 
-  VIProductVersion "0.1.0.0"
+  VIProductVersion "0.1.1.0"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "udp4all"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Quick and Dirty"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.1.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.1.1"
 
 ;--------------------------------
 

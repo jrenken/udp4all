@@ -50,4 +50,19 @@ public:
 	virtual QList<QByteArray> processData(const QByteArray& data);
 };
 
+class Gaps2GpsProcessor : public DataProcessor
+{
+public:
+	Gaps2GpsProcessor(const QString& parList = QString());
+	virtual QString typeName() const {
+		return "Gaps2Gps";
+	}
+	virtual QList<QByteArray> processData(const QByteArray& data);
+private:
+	NmeaRecord	mGGA;
+	NmeaRecord	mGLL;
+	int			mBeaconId;
+	bool		mSendGLL, mSendGGA;
+};
+
 #endif /* DATAPROCESSOR_H_ */
