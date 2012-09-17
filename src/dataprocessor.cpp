@@ -61,7 +61,7 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
                 mMsf.setField(6, l);
                 l = n[9].toDouble();
                 lD = qFloor(l / 100);
-                l = (l - lD + 100) / 60.0 + lD;
+                l = (l - lD * 100) / 60.0 + lD;
                 if (n[10].toUpper() == "W")
                 	l *= -1;
                 mMsf.setField(7, l);
