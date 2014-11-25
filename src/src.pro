@@ -3,7 +3,8 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += gaps2gpsprocessor.h \
+HEADERS += gaps2praveprocessor.h \
+    gaps2gpsprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
     nmearecord.h \
@@ -12,7 +13,8 @@ HEADERS += gaps2gpsprocessor.h \
     dataprocessor.h \
     udpforwarder.h \
     mainwin.h
-SOURCES += gaps2gpsprocessor.cpp \
+SOURCES += gaps2praveprocessor.cpp \
+    gaps2gpsprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
     nmearecord.cpp \

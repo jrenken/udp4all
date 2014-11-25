@@ -11,6 +11,10 @@
 #include <QSettings>
 #include <QDebug>
 #include "forwardmanager.h"
+#include "linesplitprocessor.h"
+#include "gaps2gpsprocessor.h"
+#include "gaps2msfprocessor.h"
+#include "gaps2praveprocessor.h"
 
 ForwardManager::ForwardManager(QObject *parent)
     : QObject(parent)
@@ -132,6 +136,8 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QS
         return new LineSplitProcessor(par);
     } else if (type == "Gaps2Gps") {
         return new Gaps2GpsProcessor(par);
+    } else if (type == "Gaps2Prave") {
+        return new Gaps2PraveProcessor(par);
     }
     return 0;
 }
