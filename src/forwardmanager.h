@@ -1,6 +1,6 @@
 /*
- *  file:	forwardmanager.h
- *  author:	jrenken
+ *  file:   forwardmanager.h
+ *  author: jrenken
  *
  *  $Rev$
  *  $Author$
@@ -22,40 +22,40 @@ class QSettings;
 
 class ForwardManager: public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ForwardManager(QObject *parent = 0);
+    ForwardManager(QObject *parent = 0);
 
-	bool loadConfiguration(const QString& fileName = QString());
-	bool loadConfiguration(QSettings& settings);
+    bool loadConfiguration(const QString& fileName = QString());
+    bool loadConfiguration(QSettings& settings);
 
-	QStringList	forwarders() const {
-		return mForwarders.keys();
-	}
+    QStringList forwarders() const {
+        return mForwarders.keys();
+    }
 
-	void setMonitor(const QString& forw, bool mon);
-	void setMonitor(bool mon);
-	bool monitor(const QString& forw) const;
+    void setMonitor(const QString& forw, bool mon);
+    void setMonitor(bool mon);
+    bool monitor(const QString& forw) const;
 
-	QAbstractItemModel* model() const {
-		return mForwarderModel;
-	}
+    QAbstractItemModel* model() const {
+        return mForwarderModel;
+    }
 public slots:
-	void bindAll();
-	void releaseAll();
+    void bindAll();
+    void releaseAll();
 
 signals:
-	void newMessage(const QString& msg);
-	void newRecMonitorData(const QByteArray& data);
-	void newSendMonitorData(const QByteArray& data);
+    void newMessage(const QString& msg);
+    void newRecMonitorData(const QByteArray& data);
+    void newSendMonitorData(const QByteArray& data);
 
 private:
-	QMap<QString, UdpForwarder*>	mForwarders;
-	ForwarderModel*					mForwarderModel;
-	void createForwarders(QSettings& settings);
-	void connectForwarders(QSettings& settings);
-	void bindForwarders();
-	DataProcessor* createDataProcessor(const QString& type, const QString& par = QString());
+    QMap<QString, UdpForwarder*>    mForwarders;
+    ForwarderModel*                 mForwarderModel;
+    void createForwarders(QSettings& settings);
+    void connectForwarders(QSettings& settings);
+    void bindForwarders();
+    DataProcessor* createDataProcessor(const QString& type, const QString& par = QString());
 };
 
 #endif /* FORWARDMANAGER_H_ */

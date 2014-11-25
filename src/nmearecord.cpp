@@ -1,6 +1,6 @@
 /*
- *  file:	nmearecord.cpp
- *  author:	jrenken
+ *  file:   nmearecord.cpp
+ *  author: jrenken
  *
  *  $Rev:$
  *  $Author:$

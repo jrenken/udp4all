@@ -1,6 +1,6 @@
 /*
- *  file:	udpforwarder.h
- *  author:	jrenken
+ *  file:   udpforwarder.h
+ *  author: jrenken
  *
  *  $Rev$
  *  $Author$
@@ -22,72 +22,72 @@
 
 class UdpForwarder: public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	UdpForwarder(const QString& name = "UdpForwarder", QObject *parent = 0);
-	virtual ~UdpForwarder();
+    UdpForwarder(const QString& name = "UdpForwarder", QObject *parent = 0);
+    virtual ~UdpForwarder();
 
-	void setDataProcessor(DataProcessor* proc);
-	DataProcessor* dataProcessor() const {
-		return mProcessor;
-	}
+    void setDataProcessor(DataProcessor* proc);
+    DataProcessor* dataProcessor() const {
+        return mProcessor;
+    }
 
-	void setSource(const QString& addr, quint16 port);
-	QString sourceAddress() const {
-		return mSource.first.toString();
-	}
-	quint16 port() const {
-		return mSource.second;
-	}
-	QString source() const;
-	QString targets() const;
-	QString inputs() const;
-	QString processor() const;
-	bool bound() const {
-		return (mSocket.state() == QAbstractSocket::BoundState);
-	}
-	void addTarget(const QString& addr, quint16 port);
+    void setSource(const QString& addr, quint16 port);
+    QString sourceAddress() const {
+        return mSource.first.toString();
+    }
+    quint16 port() const {
+        return mSource.second;
+    }
+    QString source() const;
+    QString targets() const;
+    QString inputs() const;
+    QString processor() const;
+    bool bound() const {
+        return (mSocket.state() == QAbstractSocket::BoundState);
+    }
+    void addTarget(const QString& addr, quint16 port);
 
-	void addInput(const QString& input) {
-		mInputs.append(input);
-	}
+    void addInput(const QString& input) {
+        mInputs.append(input);
+    }
 
-	QPair<int, int>	statistics() const {
-		return qMakePair(mRecCount, mSendCount);
-	}
+    QPair<int, int> statistics() const {
+        return qMakePair(mRecCount, mSendCount);
+    }
 
-	bool monitor() const {
-		return mMonitor;
-	}
-	void setMonitor(bool mon) {
-		mMonitor = mon;
-	}
+    bool monitor() const {
+        return mMonitor;
+    }
+    void setMonitor(bool mon) {
+        mMonitor = mon;
+    }
 
 public slots:
-	void handleData(const QByteArray& data);
-	bool bindSocket();
-	void releaseSocket();
+    void handleData(const QByteArray& data);
+    bool bindSocket();
+    void releaseSocket();
 
 signals:
-	void newData(const QByteArray& data);
-	void newMessage(const QString& msg);
-	void newRecMonitorData(const QByteArray& data);
-	void newSendMonitorData(const QByteArray& data);
+    void newData(const QByteArray& data);
+    void newMessage(const QString& msg);
+    void newRecMonitorData(const QByteArray& data);
+    void newSendMonitorData(const QByteArray& data);
 
 private slots:
-	void readPendingDatagrams();
+    void readPendingDatagrams();
 
 private:
-    QUdpSocket			mSocket;
-    int					mRecCount;
-    int					mSendCount;
-    bool				mMonitor;
+    QUdpSocket          mSocket;
+    int                 mRecCount;
+    int                 mSendCount;
+    bool                mMonitor;
 
-    QPair<QHostAddress, quint16>			mSource;
-    QList< QPair<QHostAddress, quint16> >	mTargets;
-    QStringList								mInputs;
-    DataProcessor*							mProcessor;
+    QPair<QHostAddress, quint16>            mSource;
+    QList< QPair<QHostAddress, quint16> >   mTargets;
+    QStringList                             mInputs;
+    DataProcessor*                          mProcessor;
 };
 
 #endif /* UDPFORWARDER_H_ */

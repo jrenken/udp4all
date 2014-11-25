@@ -1,6 +1,6 @@
 /*
- *  file:	dataprocessor.cpp
- *  author:	jrenken
+ *  file:   dataprocessor.cpp
+ *  author: jrenken
  *
  *  $Rev$
  *  $Author$
@@ -22,9 +22,9 @@ DataProcessor::~DataProcessor()
 
 QList<QByteArray> DataProcessor::processData(const QByteArray& data)
 {
-	QList<QByteArray> list;
-	list.append(data);
-	return list;
+    QList<QByteArray> list;
+    list.append(data);
+    return list;
 }
 
 // $MSF,date,time,type,name,source,lat,lon,depth,altitude,heading,roll,pitch,Vx,Vy,Vz,
@@ -32,14 +32,14 @@ QList<QByteArray> DataProcessor::processData(const QByteArray& data)
 Gaps2MsfProcessor::Gaps2MsfProcessor(const QString& parList)
     : DataProcessor(parList)
 {
-	QStringList list = parList.split(' ');
+    QStringList list = parList.split(' ');
     mMsf.setRecord(QByteArray("$MSF,,,SHIP,MyBoat,MSF0,,,0,0,0,0,0,0,0,0,"));
-	if (list.size() > 0 && !list.at(0).isEmpty())
-		mMsf[3] = list.at(0).toAscii();
-	if (list.size() > 1 && !list.at(0).isEmpty())
-		mMsf[4] = list.at(1).toAscii();
-	if (list.size() > 2 && !list.at(0).isEmpty())
-		mMsf[5] = list.at(2).toAscii();
+    if (list.size() > 0 && !list.at(0).isEmpty())
+        mMsf[3] = list.at(0).toAscii();
+    if (list.size() > 1 && !list.at(0).isEmpty())
+        mMsf[4] = list.at(1).toAscii();
+    if (list.size() > 2 && !list.at(0).isEmpty())
+        mMsf[5] = list.at(2).toAscii();
 }
 
 QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
@@ -57,13 +57,13 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
                 int lD = qFloor(l / 100);
                 l = (l - lD * 100) / 60.0 + lD;
                 if (n[8].toUpper() == "S")
-                	l *= -1;
+                    l *= -1;
                 mMsf.setField(6, l);
                 l = n[9].toDouble();
                 lD = qFloor(l / 100);
                 l = (l - lD * 100) / 60.0 + lD;
                 if (n[10].toUpper() == "W")
-                	l *= -1;
+                    l *= -1;
                 mMsf.setField(7, l);
             }
         } else if (n.header() == "$PTSAH") {
@@ -81,24 +81,24 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
 // $GPGLL,5301.4970,N,00852.1740,E,114015,A,*06
 
 Gaps2GpsProcessor::Gaps2GpsProcessor(const QString& parList)
-	: DataProcessor(parList),
-	  mBeaconId(0),
-	  mSendGLL(true),
-	  mSendGGA(true)
+    : DataProcessor(parList),
+      mBeaconId(0),
+      mSendGLL(true),
+      mSendGGA(true)
 {
-	mGLL.setRecord(QByteArray("$GPGLL,5301.4970,N,00852.1740,E,114015,A,"));
-	mGGA.setRecord(QByteArray("$GPGGA,114035.00,5301.4970,N,00852.1740,E,2,,,-0000.0,M,,,,"));
+    mGLL.setRecord(QByteArray("$GPGLL,5301.4970,N,00852.1740,E,114015,A,"));
+    mGGA.setRecord(QByteArray("$GPGGA,114035.00,5301.4970,N,00852.1740,E,2,,,-0000.0,M,,,,"));
 
-	QStringList list = parList.split(' ');
-	if (list.size() > 0) {
-		int id = list.at(0).toInt();
-		if (id > 0 && id < 5)
-			mBeaconId = id;
-	}
-	if (list.contains("-GGA", Qt::CaseInsensitive))
-		mSendGGA = false;
-	if (list.contains("-GLL", Qt::CaseInsensitive))
-		mSendGLL = false;
+    QStringList list = parList.split(' ');
+    if (list.size() > 0) {
+        int id = list.at(0).toInt();
+        if (id > 0 && id < 5)
+            mBeaconId = id;
+    }
+    if (list.contains("-GGA", Qt::CaseInsensitive))
+        mSendGGA = false;
+    if (list.contains("-GLL", Qt::CaseInsensitive))
+        mSendGLL = false;
 
 }
 
@@ -133,20 +133,20 @@ QList<QByteArray> Gaps2GpsProcessor::processData(const QByteArray& data)
 
 }
 LineSplitProcessor::LineSplitProcessor(const QString& parList)
-	: DataProcessor(parList)
+    : DataProcessor(parList)
 {
 
 }
 
 QList<QByteArray> LineSplitProcessor::processData(const QByteArray& data)
 {
-	QList<QByteArray> list;
+    QList<QByteArray> list;
 
-	int from = 0, to = 0;
-	while (from < data.size() && to != -1) {
-		to  = data.indexOf('\n', from);
-		list.append(data.mid(from, qMax(-1, to - from + 1)));
-		from = to + 1;
-	}
-	return list;
+    int from = 0, to = 0;
+    while (from < data.size() && to != -1) {
+        to  = data.indexOf('\n', from);
+        list.append(data.mid(from, qMax(-1, to - from + 1)));
+        from = to + 1;
+    }
+    return list;
 }

@@ -1,6 +1,6 @@
 /*
- *  file:		main.cpp
- *  author:		jrenken
+ *  file:       main.cpp
+ *  author:     jrenken
  *
  *  $Rev$
  *  $Author$

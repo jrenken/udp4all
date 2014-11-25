@@ -1,6 +1,6 @@
 /*
- *  file:	nmearecord.h
- *  author:	jrenken
+ *  file:   nmearecord.h
+ *  author: jrenken
  *
  *  $Rev$
  *  $Author$
@@ -52,7 +52,7 @@ public:
     QByteArray header() const;
 
     bool isEmpty() const {
-    	return (mFields.size() == 0);
+        return (mFields.size() == 0);
     }
 
 private:

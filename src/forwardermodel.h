@@ -1,6 +1,6 @@
 /*
- *  file:	forwardermodel.h
- *  author:	jrenken
+ *  file:   forwardermodel.h
+ *  author: jrenken
  *
  *  $Rev$
  *  $Author$
@@ -17,23 +17,23 @@
 
 class ForwarderModel: public QAbstractTableModel
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ForwarderModel(QMap<QString, UdpForwarder*>* data, QObject *parent = 0);
+    ForwarderModel(QMap<QString, UdpForwarder*>* data, QObject *parent = 0);
 
-	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 
-	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 protected:
-	void timerEvent(QTimerEvent *event);
+    void timerEvent(QTimerEvent *event);
 
 private:
-	QMap<QString, UdpForwarder*>	*mForwarders;
+    QMap<QString, UdpForwarder*>    *mForwarders;
 };
 
 #endif /* FORWARDERMODEL_H_ */

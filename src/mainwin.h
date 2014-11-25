@@ -1,6 +1,6 @@
 /*
- *  file:		mainwin.h
- *  author:		jrenken
+ *  file:       mainwin.h
+ *  author:     jrenken
  *
  *  $Rev$
  *  $Author$
@@ -35,23 +35,23 @@ signals:
     void datagramCountChanged(int);
 
 public slots:
-	void on_actionAbout_triggered();
-	void on_actionMonitor_triggered();
-	void on_actionOpen_triggered();
-	void on_actionSave_triggered();
-	void on_actionConfigFileExample_triggered();
+    void on_actionAbout_triggered();
+    void on_actionMonitor_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionConfigFileExample_triggered();
 
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void displayRecMonitorData(const QByteArray& data);
     void displaySendMonitorData(const QByteArray& data);
-	void onCurrentChanged(const QModelIndex & current, const QModelIndex &  );
+    void onCurrentChanged(const QModelIndex & current, const QModelIndex &  );
 
 private:
-    Ui::MainWinClass 	ui;
-    QSystemTrayIcon *	trayIcon;
-    QMenu *				trayIconMenu;
-    ForwardManager*		mManager;
+    Ui::MainWinClass    ui;
+    QSystemTrayIcon *   trayIcon;
+    QMenu *             trayIconMenu;
+    ForwardManager*     mManager;
     void closeEvent(QCloseEvent *event);
     void setupForwarders(QSettings& settings);
     void copySettings(QSettings& from, QSettings& to);
