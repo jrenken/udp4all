@@ -3,14 +3,19 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += nmearecord.h \
+HEADERS += gaps2gpsprocessor.h \
+    linesplitprocessor.h \
+    gaps2msfprocessor.h \
+    nmearecord.h \
     forwardermodel.h \
     forwardmanager.h \
     dataprocessor.h \
     udpforwarder.h \
-    mainwin.h \
-    svnversion.h
-SOURCES += nmearecord.cpp \
+    mainwin.h
+SOURCES += gaps2gpsprocessor.cpp \
+    linesplitprocessor.cpp \
+    gaps2msfprocessor.cpp \
+    nmearecord.cpp \
     forwardermodel.cpp \
     forwardmanager.cpp \
     dataprocessor.cpp \
@@ -23,11 +28,11 @@ RC_FILE = udp4all.rc
 OBJECTS_DIR = ../obj
 DESTDIR = ../bin
 MOC_DIR = moc
-unix {
-	svnversion.target = svnver
-	svnversion.commands = ../mksvnver
-	QMAKE_EXTRA_TARGETS += svnversion
-	PRE_TARGETDEPS += svnver
-	target.path = /usr/local/bin
-	INSTALLS += target
+unix { 
+    svnversion.target = svnver
+    svnversion.commands = ../mksvnver
+    QMAKE_EXTRA_TARGETS += svnversion
+    PRE_TARGETDEPS += svnver
+    target.path = /usr/local/bin
+    INSTALLS += target
 }

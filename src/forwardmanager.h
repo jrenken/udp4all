@@ -15,7 +15,9 @@
 #include <QStringList>
 #include <QMap>
 #include "udpforwarder.h"
-#include "dataprocessor.h"
+#include "linesplitprocessor.h"
+#include "gaps2gpsprocessor.h"
+#include "gaps2msfprocessor.h"
 #include "forwardermodel.h"
 
 class QSettings;
