@@ -158,3 +158,15 @@ void UdpForwarder::readPendingDatagrams()
     }
 }
 
+QHash<QString,QVariant> UdpForwarder::settings() const
+{
+    QHash<QString, QVariant> settings;
+    settings.insert("Name", objectName());
+    settings.insert("Inputs", inputs());
+    settings.insert("Source", source());
+    settings.insert("Processor", processor());
+    if (mProcessor)
+        settings.insert("Processor.Parameter", mProcessor->parameter());
+    settings.insert("Targets", targets());
+    return settings;
+}

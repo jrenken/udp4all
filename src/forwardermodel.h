@@ -29,6 +29,10 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    void updateData() {
+        reset();
+    }
+
 protected:
     void timerEvent(QTimerEvent *event);
 

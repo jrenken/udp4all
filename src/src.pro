@@ -3,7 +3,8 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += gaps2praveprocessor.h \
+HEADERS += forwarderdlg.h \
+    gaps2praveprocessor.h \
     gaps2gpsprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
@@ -13,7 +14,8 @@ HEADERS += gaps2praveprocessor.h \
     dataprocessor.h \
     udpforwarder.h \
     mainwin.h
-SOURCES += gaps2praveprocessor.cpp \
+SOURCES += forwarderdlg.cpp \
+    gaps2praveprocessor.cpp \
     gaps2gpsprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
@@ -24,7 +26,8 @@ SOURCES += gaps2praveprocessor.cpp \
     udpforwarder.cpp \
     main.cpp \
     mainwin.cpp
-FORMS += mainwin.ui
+FORMS += forwarderdlg.ui \
+    mainwin.ui
 RESOURCES = udp4all.qrc
 RC_FILE = udp4all.rc
 OBJECTS_DIR = ../obj

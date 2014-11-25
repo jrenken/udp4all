@@ -25,6 +25,12 @@ public:
         return "Raw";
     }
     virtual QList<QByteArray> processData(const QByteArray& data);
+
+    QString parameter() const {
+        return mParameter;
+    }
+protected:
+    QString mParameter;
 };
 
 

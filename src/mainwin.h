@@ -39,6 +39,9 @@ public slots:
     void on_actionMonitor_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
+    void on_actionNewForwarder_triggered();
+    void on_actionEditForwarder_triggered();
+    void on_actionDeleteForwarder_triggered();
     void on_actionConfigFileExample_triggered();
 
 private slots:

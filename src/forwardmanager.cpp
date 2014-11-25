@@ -51,68 +51,85 @@ void ForwardManager::createForwarders(QSettings& settings)
     int size = settings.beginReadArray("Forwarders");
     for ( int i = 0; i < size; i++) {
         settings.setArrayIndex(i);
-        QString s = settings.value("Name").toString();
-        UdpForwarder *forwarder = new UdpForwarder(s, this);
-        connect(forwarder, SIGNAL(newMessage(const QString&)), SIGNAL(newMessage(const QString&)));
-        emit newMessage(tr("ForwardManager:createForwarder:%1").arg(forwarder->objectName()));
-
-        connect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)),
-                SIGNAL(newRecMonitorData(const QByteArray&)));
-        connect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)),
-                SIGNAL(newSendMonitorData(const QByteArray&)));
-
-        s = settings.value("Source").toString();
-        if (!s.isEmpty()) {
-            forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
+        QHash<QString, QVariant> setngs;
+        foreach ( QString key, settings.childKeys()) {
+            setngs.insert(key, settings.value(key));
         }
-
-        forwarder->setDataProcessor(
-                createDataProcessor(settings.value("Processor").toString(),
-                        settings.value("Processor.Parameter").toString()));
-
-        QVariantList vl = settings.value("Targets").toList();
-        if (vl.isEmpty()) {
-            QVariant v = settings.value("Targets");
-            if (!v.isNull())
-                vl.append(v);
-        }
-        foreach (QVariant v, vl) {
-            s = v.toString();
-            forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
-        }
+        UdpForwarder *forwarder = createForwarder(setngs);
         mForwarders.insert(forwarder->objectName(), forwarder);
     }
     settings.endArray();
 }
 
+UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& settings)
+{
+    QString s = settings.value("Name").toString();
+    UdpForwarder *forwarder = new UdpForwarder(s, this);
+    connect(forwarder, SIGNAL(newMessage(const QString&)), SIGNAL(newMessage(const QString&)));
+    emit newMessage(tr("ForwardManager:createForwarder:%1").arg(forwarder->objectName()));
+
+    connect(forwarder, SIGNAL(newRecMonitorData(const QByteArray&)),
+            SIGNAL(newRecMonitorData(const QByteArray&)));
+    connect(forwarder, SIGNAL(newSendMonitorData(const QByteArray&)),
+            SIGNAL(newSendMonitorData(const QByteArray&)));
+
+    s = settings.value("Source").toString();
+    if (!s.isEmpty()) {
+        forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
+    }
+
+    forwarder->setDataProcessor(
+            createDataProcessor(settings.value("Processor").toString(),
+                    settings.value("Processor.Parameter").toString()));
+
+    QVariantList vl = settings.value("Targets").toList();
+    if (vl.isEmpty()) {
+        QVariant v = settings.value("Targets");
+        if (!v.isNull())
+            vl.append(v);
+    }
+    foreach (QVariant v, vl) {
+        s = v.toString();
+        forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
+    }
+    return forwarder;
+}
 
 void ForwardManager::connectForwarders(QSettings& settings)
 {
     int size = settings.beginReadArray("Forwarders");
     for ( int i = 0; i < size; i++) {
         settings.setArrayIndex(i);
-        QString s = settings.value("Name").toString();
-        UdpForwarder* forwarder = mForwarders.value(s);
-        if (forwarder) {
-            QVariantList vl = settings.value("Inputs").toList();
-            if (vl.isEmpty())
-                vl.append(settings.value("Inputs"));
-            foreach (QVariant v, vl) {
-                s = v.toString();
-                UdpForwarder* sforwarder = mForwarders.value(s);
-                if (sforwarder && (sforwarder != forwarder)) {
-                    forwarder->addInput(s);
-                    connect(sforwarder, SIGNAL(newData(const QByteArray&)),
-                            forwarder, SLOT(handleData(const QByteArray&)));
-                    emit newMessage(tr("ForwardManager:connectForwarder:%1 -> %2")
-                            .arg(sforwarder->objectName()).arg(forwarder->objectName()));
-                }
-            }
+        QHash<QString, QVariant> setngs;
+        foreach ( QString key, settings.childKeys()) {
+            setngs.insert(key, settings.value(key));
         }
+        connectForwarder(setngs);
     }
     settings.endArray();
 }
 
+void ForwardManager::connectForwarder(const QHash<QString, QVariant>& settings)
+{
+    QString s = settings.value("Name").toString();
+    UdpForwarder* forwarder = mForwarders.value(s);
+    if (forwarder) {
+        QVariantList vl = settings.value("Inputs").toList();
+        if (vl.isEmpty())
+            vl.append(settings.value("Inputs"));
+        foreach (QVariant v, vl) {
+            s = v.toString();
+            UdpForwarder* sforwarder = mForwarders.value(s);
+            if (sforwarder && (sforwarder != forwarder)) {
+                forwarder->addInput(s);
+                connect(sforwarder, SIGNAL(newData(const QByteArray&)),
+                        forwarder, SLOT(handleData(const QByteArray&)));
+                emit newMessage(tr("ForwardManager:connectForwarder:%1 -> %2")
+                        .arg(sforwarder->objectName()).arg(forwarder->objectName()));
+            }
+        }
+    }
+}
 
 void ForwardManager::bindAll()
 {
@@ -163,4 +180,30 @@ bool ForwardManager::monitor(const QString& forw) const
     if (forwarder)
         return forwarder->monitor();
     return false;
+}
+
+void ForwardManager::updateForwarder( const QHash<QString, QVariant>& settings )
+{
+    UdpForwarder *fw;
+    QString s = settings.value("Name").toString();
+    if (mForwarders.contains(s)) {
+        fw = mForwarders.value(s);
+        mForwarders.remove(s);
+        delete fw;
+    }
+    fw = createForwarder(settings);
+    mForwarders.insert(fw->objectName(), fw);
+    connectForwarder(settings);
+    fw->bindSocket();
+    mForwarderModel->updateData();
+}
+
+void ForwardManager::deleteForwarder( const QString& name)
+{
+    if (mForwarders.contains(name)) {
+        UdpForwarder *fw = mForwarders.value(name);
+        mForwarders.remove(name);
+        delete fw;
+        mForwarderModel->updateData();
+    }
 }

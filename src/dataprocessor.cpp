@@ -12,13 +12,15 @@
 
 #include "dataprocessor.h"
 
-DataProcessor::DataProcessor(const QString& )
+DataProcessor::DataProcessor(const QString& parList)
+    : mParameter(parList)
 {
 }
 
 DataProcessor::~DataProcessor()
 {
 }
+
 
 QList<QByteArray> DataProcessor::processData(const QByteArray& data)
 {

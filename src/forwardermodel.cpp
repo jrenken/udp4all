@@ -39,6 +39,8 @@ QVariant ForwarderModel::data(const QModelIndex &index, int role) const
     } else if (role == Qt::UserRole + 2) {
         fw->setMonitor(false);
         return false;
+    } else if (role == Qt::UserRole + 3) {
+        return fw->objectName();
     } else {
         switch (index.column()) {
         case 0:

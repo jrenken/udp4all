@@ -14,6 +14,7 @@
 #include <QObject>
 #include <QList>
 #include <QPair>
+#include <QHash>
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QStringList>
@@ -44,6 +45,7 @@ public:
     QString targets() const;
     QString inputs() const;
     QString processor() const;
+//    QString processorParameter() const;
     bool bound() const {
         return (mSocket.state() == QAbstractSocket::BoundState);
     }
@@ -63,6 +65,8 @@ public:
     void setMonitor(bool mon) {
         mMonitor = mon;
     }
+
+    QHash<QString,QVariant> settings() const;
 
 public slots:
     void handleData(const QByteArray& data);

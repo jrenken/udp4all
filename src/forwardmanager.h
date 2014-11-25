@@ -33,6 +33,10 @@ public:
         return mForwarders.keys();
     }
 
+    UdpForwarder *forwarder(const QString& name) const {
+        return mForwarders.value(name);
+    }
+
     void setMonitor(const QString& forw, bool mon);
     void setMonitor(bool mon);
     bool monitor(const QString& forw) const;
@@ -40,6 +44,10 @@ public:
     QAbstractItemModel* model() const {
         return mForwarderModel;
     }
+
+    void updateForwarder( const QHash<QString, QVariant>& settings );
+    void deleteForwarder( const QString& name);
+
 public slots:
     void bindAll();
     void releaseAll();
@@ -55,6 +63,9 @@ private:
     void createForwarders(QSettings& settings);
     void connectForwarders(QSettings& settings);
     void bindForwarders();
+    UdpForwarder* createForwarder(const QHash<QString, QVariant>& settings);
+    void connectForwarder(const QHash<QString, QVariant>& settings);
+
     DataProcessor* createDataProcessor(const QString& type, const QString& par = QString());
 };
 
