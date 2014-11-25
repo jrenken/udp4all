@@ -14,25 +14,25 @@
 const int NmeaRecord::MaxFields = 64;
 
 NmeaRecord::NmeaRecord(int size)
-    : mPrecision(4)
+    : mPrecision(6)
 {
     setSize(size);
 }
 
 NmeaRecord::NmeaRecord(const char* rec)
-    : mPrecision(4)
+    : mPrecision(6)
 {
     setRecord(QByteArray(rec));
 }
 
 NmeaRecord::NmeaRecord(const QByteArray& rec)
-    : mPrecision(4)
+    : mPrecision(6)
 {
     setRecord(rec);
 }
 
 NmeaRecord::NmeaRecord(const QString& rec)
-    : mPrecision(4)
+    : mPrecision(6)
 {
     setRecord(rec);
 }
