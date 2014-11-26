@@ -2,10 +2,10 @@
  *  file:       mainwin.cpp
  *  author:     jrenken
  *
- *  $Rev$
- *  $Author$
- *  $Date$
- *  $Id$
+ *  $Rev: 13 $
+ *  $Author: jrenken $
+ *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
+ *  $Id: mainwin.cpp 13 2014-11-26 12:29:48Z jrenken $
  */
 
 #include "mainwin.h"
@@ -148,7 +148,7 @@ void MainWin::on_actionAbout_triggered()
     QString versionInfo =   "<B>udp4all</B><p>"
                             "Rev: "SVNVERSION" $<p>"
                             "Date: "SVNDATE" $<p>"
-                            "$Author$   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
+                            "$Author: jrenken $   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
                             "(C) <i>Copyright 2011</i>, <b>University of Bremen, Marum</b>";
     QMessageBox::about ( this,
                     "About udp4all", versionInfo.replace('$', ' '));
