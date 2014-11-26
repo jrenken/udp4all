@@ -2,10 +2,10 @@
  *  file:   udpforwarder.cpp
  *  author: jrenken
  *
- *  $Rev: 13 $
+ *  $Rev: 14 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
- *  $Id: udpforwarder.cpp 13 2014-11-26 12:29:48Z jrenken $
+ *  $Date: 2014-11-26 14:59:56 +0100 (Mi, 26. Nov 2014) $
+ *  $Id: udpforwarder.cpp 14 2014-11-26 13:59:56Z jrenken $
  */
 
 #include <QTimer>
@@ -119,6 +119,13 @@ void UdpForwarder::releaseSocket()
     mSocket.disconnectFromHost();
     emit newMessage(tr("Forwarder %1:releaseSocket:%2:%3").arg(objectName())
             .arg(mSource.first.toString()).arg(mSource.second));
+}
+
+bool UdpForwarder::bound() const
+{
+    if ( source() == "none" )
+        return false;
+    return (mSocket.state() == QAbstractSocket::BoundState);
 }
 
 void UdpForwarder::handleData(const QByteArray& data)

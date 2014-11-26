@@ -2,10 +2,10 @@
  *  file:   forwardmanager.cpp
  *  author: jrenken
  *
- *  $Rev: 13 $
+ *  $Rev: 14 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
- *  $Id: forwardmanager.cpp 13 2014-11-26 12:29:48Z jrenken $
+ *  $Date: 2014-11-26 14:59:56 +0100 (Mi, 26. Nov 2014) $
+ *  $Id: forwardmanager.cpp 14 2014-11-26 13:59:56Z jrenken $
  */
 
 #include <QSettings>
@@ -28,6 +28,11 @@ bool ForwardManager::loadConfiguration(const QString& fileName)
 {
     if (!fileName.isEmpty()) {
         QSettings settings(fileName, QSettings::IniFormat);
+        if (settings.value("Type").toString() != "Udp4All") {
+            emit newMessage(tr("ForwardManager:loadConfiguration:failed:invalid config file"));
+            return false;
+        }
+
         if (settings.status() == QSettings::NoError)
             return loadConfiguration(settings);
     }
@@ -36,10 +41,6 @@ bool ForwardManager::loadConfiguration(const QString& fileName)
 
 bool ForwardManager::loadConfiguration(QSettings& settings)
 {
-    if (settings.value("Type").toString() != "Udp4All") {
-        emit newMessage(tr("ForwardManager:loadConfiguration:failed:invalid config file"));
-        return false;
-    }
     emit newMessage(tr("ForwardManager:loadConfiguration:%1").arg(settings.fileName()));
     createForwarders(settings);
     connectForwarders(settings);
@@ -74,7 +75,7 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
             SIGNAL(newSendMonitorData(const QByteArray&)));
 
     s = settings.value("Source").toString();
-    if (!s.isEmpty()) {
+    if (!s.isEmpty() || (s != "none") ) {
         forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
 

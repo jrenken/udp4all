@@ -2,10 +2,10 @@
  *  file:   udpforwarder.h
  *  author: jrenken
  *
- *  $Rev: 13 $
+ *  $Rev: 14 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
- *  $Id: udpforwarder.h 13 2014-11-26 12:29:48Z jrenken $
+ *  $Date: 2014-11-26 14:59:56 +0100 (Mi, 26. Nov 2014) $
+ *  $Id: udpforwarder.h 14 2014-11-26 13:59:56Z jrenken $
  */
 
 #ifndef UDPFORWARDER_H_
@@ -14,6 +14,7 @@
 #include <QObject>
 #include <QList>
 #include <QPair>
+#include <QVariant>
 #include <QHash>
 #include <QHostAddress>
 #include <QUdpSocket>
@@ -46,9 +47,7 @@ public:
     QString inputs() const;
     QString processor() const;
 
-    bool bound() const {
-        return (mSocket.state() == QAbstractSocket::BoundState);
-    }
+    bool bound() const;
     void addTarget(const QString& addr, quint16 port);
 
     void addInput(const QString& input) {
