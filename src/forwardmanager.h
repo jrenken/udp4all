@@ -45,8 +45,9 @@ public:
         return mForwarderModel;
     }
 
-    void updateForwarder( const QHash<QString, QVariant>& settings );
-    void deleteForwarder( const QString& name);
+    void updateForwarder( const QHash<QString, QVariant>& settings, QSettings &globalSettings);
+    void deleteForwarder( const QString& name, QSettings &globalSettings);
+
 
 public slots:
     void bindAll();
@@ -67,6 +68,7 @@ private:
     void connectForwarder(const QHash<QString, QVariant>& settings);
 
     DataProcessor* createDataProcessor(const QString& type, const QString& par = QString());
+    void saveConfiguration(QSettings& settings);
 };
 
 #endif /* FORWARDMANAGER_H_ */

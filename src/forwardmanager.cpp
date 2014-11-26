@@ -78,11 +78,19 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
         forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
 
+    QVariantList vl = settings.value("Inputs").toList();
+    if (vl.isEmpty())
+        vl.append(settings.value("Inputs"));
+    foreach (QVariant v, vl) {
+        s = v.toString();
+        forwarder->addInput(s);
+    }
+
     forwarder->setDataProcessor(
             createDataProcessor(settings.value("Processor").toString(),
                     settings.value("Processor.Parameter").toString()));
 
-    QVariantList vl = settings.value("Targets").toList();
+    vl = settings.value("Targets").toList();
     if (vl.isEmpty()) {
         QVariant v = settings.value("Targets");
         if (!v.isNull())
@@ -121,7 +129,6 @@ void ForwardManager::connectForwarder(const QHash<QString, QVariant>& settings)
             s = v.toString();
             UdpForwarder* sforwarder = mForwarders.value(s);
             if (sforwarder && (sforwarder != forwarder)) {
-                forwarder->addInput(s);
                 connect(sforwarder, SIGNAL(newData(const QByteArray&)),
                         forwarder, SLOT(handleData(const QByteArray&)));
                 emit newMessage(tr("ForwardManager:connectForwarder:%1 -> %2")
@@ -182,7 +189,7 @@ bool ForwardManager::monitor(const QString& forw) const
     return false;
 }
 
-void ForwardManager::updateForwarder( const QHash<QString, QVariant>& settings )
+void ForwardManager::updateForwarder( const QHash<QString, QVariant>& settings, QSettings &globalSettings )
 {
     UdpForwarder *fw;
     QString s = settings.value("Name").toString();
@@ -193,17 +200,35 @@ void ForwardManager::updateForwarder( const QHash<QString, QVariant>& settings )
     }
     fw = createForwarder(settings);
     mForwarders.insert(fw->objectName(), fw);
-    connectForwarder(settings);
+    saveConfiguration(globalSettings);
+    connectForwarders(globalSettings);
     fw->bindSocket();
     mForwarderModel->updateData();
 }
 
-void ForwardManager::deleteForwarder( const QString& name)
+
+void ForwardManager::deleteForwarder( const QString& name, QSettings &globalSettings)
 {
     if (mForwarders.contains(name)) {
         UdpForwarder *fw = mForwarders.value(name);
         mForwarders.remove(name);
         delete fw;
+        saveConfiguration(globalSettings);
         mForwarderModel->updateData();
     }
+}
+
+void ForwardManager::saveConfiguration(QSettings& settings)
+{
+    settings.beginWriteArray("Forwarders");
+    int idx = 0;
+    foreach (QString key, mForwarders.keys()) {
+        settings.setArrayIndex(idx);
+        QHash<QString, QVariant> fwSettings = mForwarders.value(key)->settings();
+        foreach (QString sKey, fwSettings.keys()) {
+            settings.setValue(sKey, fwSettings.value(sKey));
+        }
+        idx++;
+    }
+    settings.endArray();
 }

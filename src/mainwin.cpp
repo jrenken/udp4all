@@ -26,7 +26,7 @@ MainWin::MainWin(QWidget *parent)
     ui.setupUi(this);
     ui.toolButtonMonitor->setDefaultAction(ui.actionMonitor);
     connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-
+    ui.tabWidget->removeTab(2);
     QSettings   settings;
 
     move(settings.value("pos", QPoint(200, 200)).toPoint());
@@ -198,7 +198,8 @@ void MainWin::on_actionNewForwarder_triggered()
 {
     ForwarderDlg *dlg = new ForwarderDlg(this);
     if (dlg->exec() == QDialog::Accepted) {
-        mManager->updateForwarder(dlg->settings());
+        QSettings globalSettings;
+        mManager->updateForwarder(dlg->settings(), globalSettings);
     }
     delete dlg;
 }
@@ -208,14 +209,14 @@ void MainWin::on_actionEditForwarder_triggered()
     QModelIndex idx = ui.tableView->currentIndex();
     if ( idx.isValid()) {
         QString name = idx.data(Qt::UserRole + 3).toString();
-        qDebug() << idx << name;
         UdpForwarder *fw = mManager->forwarder(name);
         if ( !fw )
             return;
 
         ForwarderDlg *dlg = new ForwarderDlg(this, fw->settings());
         if (dlg->exec() == QDialog::Accepted) {
-            mManager->updateForwarder(dlg->settings());
+            QSettings globalSettings;
+            mManager->updateForwarder(dlg->settings(), globalSettings);
         }
         delete dlg;
 
@@ -228,6 +229,7 @@ void MainWin::on_actionDeleteForwarder_triggered()
     QModelIndex idx = ui.tableView->currentIndex();
     if ( idx.isValid()) {
         QString name = idx.data(Qt::UserRole + 3).toString();
-        mManager->deleteForwarder(name);
+        QSettings globalSettings;
+        mManager->deleteForwarder(name, globalSettings);
     }
 }

@@ -26,6 +26,8 @@ UdpForwarder::UdpForwarder(const QString& name, QObject *parent)
 
 UdpForwarder::~UdpForwarder()
 {
+    if ( bound() )
+        mSocket.disconnectFromHost();
     if (mProcessor)
         delete mProcessor;
     emit newMessage(tr("Forwarder %1:delete myself").arg(objectName()));

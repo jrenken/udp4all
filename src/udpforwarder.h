@@ -45,7 +45,7 @@ public:
     QString targets() const;
     QString inputs() const;
     QString processor() const;
-//    QString processorParameter() const;
+
     bool bound() const {
         return (mSocket.state() == QAbstractSocket::BoundState);
     }
