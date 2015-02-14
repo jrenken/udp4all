@@ -2,10 +2,10 @@
  *  file:   udpforwarder.cpp
  *  author: jrenken
  *
- *  $Rev: 14 $
+ *  $Rev: 15 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 14:59:56 +0100 (Mi, 26. Nov 2014) $
- *  $Id: udpforwarder.cpp 14 2014-11-26 13:59:56Z jrenken $
+ *  $Date: 2015-02-14 17:49:47 +0100 (Sa, 14. Feb 2015) $
+ *  $Id: udpforwarder.cpp 15 2015-02-14 16:49:47Z jrenken $
  */
 
 #include <QTimer>
