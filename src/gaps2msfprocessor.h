@@ -20,6 +20,7 @@ public:
     virtual QList<QByteArray> processData(const QByteArray& data);
 private:
     NmeaRecord  mMsf;
+    bool        mBug;
 };
 
 #endif /* GAPS2MSFPROCESSOR_H_ */

@@ -12,7 +12,8 @@
 // $MSF,date,time,type,name,source,lat,lon,depth,altitude,heading,roll,pitch,Vx,Vy,Vz,
 
 Gaps2MsfProcessor::Gaps2MsfProcessor(const QString& parList)
-    : DataProcessor(parList)
+    : DataProcessor(parList),
+      mBug(false)
 {
     QStringList list = parList.split(' ');
     mMsf.setRecord(QByteArray("$MSF,,,SHIP,MyBoat,MSF0,,,0,0,0,0,0,0,0,0,"));
@@ -22,6 +23,9 @@ Gaps2MsfProcessor::Gaps2MsfProcessor(const QString& parList)
         mMsf[4] = list.at(1).toAscii();
     if (list.size() > 2 && !list.at(0).isEmpty())
         mMsf[5] = list.at(2).toAscii();
+    if (list.indexOf("mbug") != -1) {
+        mBug = true;
+    }
 }
 
 QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
@@ -33,7 +37,11 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
         if (n.isEmpty()) continue;
         if (n.header() == "$PTSAG") {
             if (n[6].toInt() == 0) {
-                mMsf[1] = n[5] + n[4] + n[3];
+                if (mBug) {
+                    mMsf[1] = "2012" + n[4] + n[3];
+                } else {
+                    mMsf[1] = n[5] + n[4] + n[3];
+                }
                 mMsf[2] = n[2];
                 qreal l = n[7].toDouble();
                 int lD = qFloor(l / 100);

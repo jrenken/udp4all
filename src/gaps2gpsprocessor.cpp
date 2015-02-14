@@ -20,7 +20,7 @@ Gaps2GpsProcessor::Gaps2GpsProcessor(const QString& parList)
     QStringList list = parList.split(' ');
     if (list.size() > 0) {
         int id = list.at(0).toInt();
-        if (id > 0 && id < 5)
+        if (id >= 0 && id < 16)
             mBeaconId = id;
     }
     if (list.contains("-GGA", Qt::CaseInsensitive))
