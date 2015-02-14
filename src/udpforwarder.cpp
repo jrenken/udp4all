@@ -51,7 +51,7 @@ QString UdpForwarder::targets() const
     foreach (target, mTargets) {
         s.append(QString("%1:%2 ").arg(target.first.toString()).arg(target.second));
     }
-    return s;
+    return s.simplified();
 }
 
 QString UdpForwarder::inputs() const
@@ -59,7 +59,7 @@ QString UdpForwarder::inputs() const
     if (mInputs.isEmpty())
         return "none";
 
-    return mInputs.join(" ");
+    return mInputs.join(" ").simplified();
 }
 
 QString UdpForwarder::processor() const

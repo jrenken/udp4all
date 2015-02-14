@@ -79,11 +79,8 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
         forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
 
-    QVariantList vl = settings.value("Inputs").toList();
-    if (vl.isEmpty())
-        vl.append(settings.value("Inputs"));
-    foreach (QVariant v, vl) {
-        s = v.toString();
+    QStringList sl = settings.value("Inputs").toString().split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    foreach (QString s, sl) {
         forwarder->addInput(s);
     }
 
@@ -91,14 +88,8 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
             createDataProcessor(settings.value("Processor").toString(),
                     settings.value("Processor.Parameter").toString()));
 
-    vl = settings.value("Targets").toList();
-    if (vl.isEmpty()) {
-        QVariant v = settings.value("Targets");
-        if (!v.isNull())
-            vl.append(v);
-    }
-    foreach (QVariant v, vl) {
-        s = v.toString();
+    sl = settings.value("Targets").toString().split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    foreach (QString s, sl) {
         forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
     return forwarder;
