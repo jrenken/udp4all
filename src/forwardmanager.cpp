@@ -9,6 +9,7 @@
  */
 
 #include <QSettings>
+#include <QCoreApplication>
 #include <QDebug>
 #include "forwardmanager.h"
 #include "linesplitprocessor.h"
@@ -16,13 +17,29 @@
 #include "gaps2msfprocessor.h"
 #include "gaps2praveprocessor.h"
 
+
+
+
 ForwardManager::ForwardManager(QObject *parent)
     : QObject(parent)
 {
     setObjectName("ForwardManager");
+#ifndef DAEMON
     mForwarderModel = new ForwarderModel(&mForwarders, this);
+#endif
 }
 
+#ifdef DAEMON
+ForwardManager* ForwardManager::mInstance = 0;
+
+ForwardManager* ForwardManager::instance()
+{
+    if (!mInstance) {
+        mInstance = new ForwardManager(QCoreApplication::instance());
+    }
+    return mInstance;
+}
+#endif
 
 bool ForwardManager::loadConfiguration(const QString& fileName)
 {
@@ -195,7 +212,9 @@ void ForwardManager::updateForwarder( const QHash<QString, QVariant>& settings, 
     saveConfiguration(globalSettings);
     connectForwarders(globalSettings);
     fw->bindSocket();
+#ifndef DAEMON
     mForwarderModel->updateData();
+#endif
 }
 
 
@@ -206,7 +225,9 @@ void ForwardManager::deleteForwarder( const QString& name, QSettings &globalSett
         mForwarders.remove(name);
         delete fw;
         saveConfiguration(globalSettings);
+#ifndef DAEMON
         mForwarderModel->updateData();
+#endif
     }
 }
 

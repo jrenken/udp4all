@@ -1,0 +1,2 @@
+# Default settings for udp4alld
+UDP4ALL_CONFIG="/home/jrenken/.config/Marum/udp4all.conf"

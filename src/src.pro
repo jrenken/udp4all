@@ -3,33 +3,44 @@ TARGET = udp4all
 QT += core \
     gui \
     network
-HEADERS += forwarderdlg.h \
-    gaps2praveprocessor.h \
+
+console { 
+    QT -= gui
+    TARGET = udp4alld
+    DEFINES += DAEMON
+    HEADERS += logger.h
+    SOURCES += logger.cpp
+    message("Build daemon udp4alld")
+} else { 
+    message("Build GUI version udp4all")
+    HEADERS += forwarderdlg.h \
+        forwardermodel.h \
+        mainwin.h
+    SOURCES += forwarderdlg.cpp \
+        forwardermodel.cpp \
+        mainwin.cpp
+    FORMS += forwarderdlg.ui \
+        mainwin.ui
+    RESOURCES = udp4all.qrc
+    RC_FILE = udp4all.rc
+}
+HEADERS += gaps2praveprocessor.h \
     gaps2gpsprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
     nmearecord.h \
-    forwardermodel.h \
     forwardmanager.h \
     dataprocessor.h \
-    udpforwarder.h \
-    mainwin.h
-SOURCES += forwarderdlg.cpp \
-    gaps2praveprocessor.cpp \
+    udpforwarder.h
+SOURCES += gaps2praveprocessor.cpp \
     gaps2gpsprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
     nmearecord.cpp \
-    forwardermodel.cpp \
     forwardmanager.cpp \
     dataprocessor.cpp \
     udpforwarder.cpp \
-    main.cpp \
-    mainwin.cpp
-FORMS += forwarderdlg.ui \
-    mainwin.ui
-RESOURCES = udp4all.qrc
-RC_FILE = udp4all.rc
+    main.cpp
 OBJECTS_DIR = ../obj
 DESTDIR = ../bin
 MOC_DIR = moc

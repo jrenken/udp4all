@@ -26,6 +26,10 @@ class ForwardManager: public QObject
 public:
     ForwardManager(QObject *parent = 0);
 
+#ifdef DAEMON
+    static ForwardManager *instance();
+#endif
+
     bool loadConfiguration(const QString& fileName = QString());
     bool loadConfiguration(QSettings& settings);
 
@@ -41,9 +45,11 @@ public:
     void setMonitor(bool mon);
     bool monitor(const QString& forw) const;
 
+#ifndef DAEMON
     QAbstractItemModel* model() const {
         return mForwarderModel;
     }
+#endif
 
     void updateForwarder( const QHash<QString, QVariant>& settings, QSettings &globalSettings);
     void deleteForwarder( const QString& name, QSettings &globalSettings);
@@ -60,7 +66,11 @@ signals:
 
 private:
     QMap<QString, UdpForwarder*>    mForwarders;
+#ifndef DAEMON
     ForwarderModel*                 mForwarderModel;
+#else
+    static  ForwardManager          *mInstance;
+#endif
     void createForwarders(QSettings& settings);
     void connectForwarders(QSettings& settings);
     void bindForwarders();

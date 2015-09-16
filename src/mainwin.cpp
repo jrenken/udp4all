@@ -73,8 +73,6 @@ void MainWin::setupForwarders(QSettings& settings)
 }
 
 
-
-
 void MainWin::displayRecMonitorData(const QByteArray& data)
 {
     QString s = "<- " + QString(data).trimmed();
