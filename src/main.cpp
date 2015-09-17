@@ -14,14 +14,15 @@
     #include <QFile>
     #include <signal.h>
     #include <unistd.h>
+    #include <iostream>
     #include "forwardmanager.h"
     #include "logger.h"
+    #include "svnversion.h"
 #else
     #include "mainwin.h"
     #include <QtGui>
     #include <QApplication>
 #endif
-
 
 #ifdef DAEMON
 void writePidFile()
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
     int     opt;
     QString configFile;
 
-    while ((opt = getopt(argc, argv, "dc:")) != -1) {
+    while ((opt = getopt(argc, argv, "dvc:")) != -1) {
         switch (opt) {
         case 'd':
             daemonize = false;
@@ -67,7 +68,13 @@ int main(int argc, char *argv[])
         case 'c':
             configFile = optarg;
             break;
-
+        case 'v':
+            std::cout << "udp4alld" << std::endl
+                      << "Rev: "SVNVERSION << std::endl
+                      << "Date: "SVNDATE << std::endl
+                      << "Author: Jens Renken renken@marum.de" << std::endl
+                      << "(C) Copyright 2011, University of Bremen, Marum" << std::endl;
+            exit(0);
        }
     }
     QCoreApplication a(argc, argv);
