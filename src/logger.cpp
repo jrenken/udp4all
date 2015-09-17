@@ -15,5 +15,5 @@ Logger::Logger(QObject* parent)
 
 void Logger::logMessage(const QString& msg)
 {
-    syslog(LOG_INFO, msg.toLatin1().data());
+    syslog(LOG_INFO, "%s", msg.toLatin1().data());
 }

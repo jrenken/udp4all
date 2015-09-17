@@ -84,7 +84,6 @@ int main(int argc, char *argv[])
 
 #ifdef DAEMON
     Logger  *logger = new Logger(&a);
-//    ForwardManager  *manager = new ForwardManager(&a);
     QObject::connect(ForwardManager::instance(), SIGNAL(newMessage(const QString&)), logger, SLOT(logMessage(const QString&)));
     QSettings *settings;
     if (!configFile.isEmpty()) {
