@@ -18,6 +18,7 @@ UdpForwarder::UdpForwarder(const QString& name, QObject *parent)
       mRecCount(0),
       mSendCount(0),
       mMonitor(false),
+      mDelay(0),
       mProcessor(0)
 {
     setObjectName(name);
@@ -99,6 +100,18 @@ void UdpForwarder::setDataProcessor(DataProcessor* proc)
         emit newMessage(tr("Forwarder %1:setDataProcessor:Null").arg(objectName()));
 }
 
+int UdpForwarder::delay() const
+{
+    return mDelay;
+}
+
+void UdpForwarder::setDelay(int delay)
+{
+    mDelay = delay;
+}
+
+
+
 bool UdpForwarder::bindSocket()
 {
     mSocket.disconnectFromHost();
@@ -142,20 +155,43 @@ void UdpForwarder::handleData(const QByteArray& data)
         procData.append(data);
     }
     if (!procData.isEmpty()) {
-        foreach (QByteArray ba, procData) {
-            mSendCount++;
-            emit newData(ba);
-            if (mMonitor) {
-                emit newSendMonitorData(ba);
-            }
-            QPair<QHostAddress, quint16> target;
-            foreach (target, mTargets) {
-                mSocket.writeDatagram(ba, target.first, target.second);
+        if (mDelay > 0) {
+            bool trig = mOutputQueue.isEmpty();
+            mOutputQueue.append(procData);
+            if (trig)
+                sendQueuedData();
+        } else {
+            foreach (QByteArray ba, procData) {
+                sendData(ba);
             }
         }
     }
 }
 
+void UdpForwarder::sendData(const QByteArray& ba)
+{
+    mSendCount++;
+    emit newData(ba);
+    if (mMonitor) {
+        emit newSendMonitorData(ba);
+    }
+    QPair<QHostAddress, quint16> target;
+    foreach (target, mTargets) {
+        mSocket.writeDatagram(ba, target.first, target.second);
+    }
+}
+
+void UdpForwarder::sendQueuedData()
+{
+    if (mOutputQueue.isEmpty())
+        return;
+
+    QByteArray ba = mOutputQueue.dequeue();
+    sendData(ba);
+    if (!mOutputQueue.isEmpty()) {
+        QTimer::singleShot(mDelay, this, SLOT(sendQueuedData()));
+    }
+}
 
 void UdpForwarder::readPendingDatagrams()
 {
@@ -173,6 +209,7 @@ QHash<QString,QVariant> UdpForwarder::settings() const
     settings.insert("Name", objectName());
     settings.insert("Inputs", inputs());
     settings.insert("Source", source());
+    settings.insert("Delay", mDelay);
     settings.insert("Processor", processor());
     if (mProcessor)
         settings.insert("Processor.Parameter", mProcessor->parameter());

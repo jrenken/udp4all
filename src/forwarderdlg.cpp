@@ -19,6 +19,7 @@ ForwarderDlg::ForwarderDlg(QWidget *parent, QHash<QString,QVariant> settings )
 	            .split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts).join("\n"));
 	    ui.plainTextEditTargets->setPlainText(settings.value("Targets").toString()
 	            .split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts).join("\n"));
+	    ui.spinBoxDelay->setValue(settings.value("Delay", 0).toInt());
 	}
 }
 
@@ -32,5 +33,6 @@ QHash<QString,QVariant> ForwarderDlg::settings() const
     settings.insert("Processor", ui.comboBoxProcessors->currentText());
     settings.insert("Processor.Parameter", ui.lineEditProcessorParameter->text());
     settings.insert("Targets", ui.plainTextEditTargets->toPlainText().replace("\n", " ").simplified());
+    settings.insert("Delay", ui.spinBoxDelay->value());
     return settings;
 }

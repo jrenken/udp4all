@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QQueue>
 #include <QPair>
 #include <QVariant>
 #include <QHash>
@@ -47,6 +48,9 @@ public:
     QString inputs() const;
     QString processor() const;
 
+    int     delay() const;
+    void    setDelay(int delay);
+
     bool bound() const;
     void addTarget(const QString& addr, quint16 port);
 
@@ -67,10 +71,13 @@ public:
 
     QHash<QString,QVariant> settings() const;
 
+    void sendData(const QByteArray& ba);
+
 public slots:
     void handleData(const QByteArray& data);
     bool bindSocket();
     void releaseSocket();
+    void sendQueuedData();
 
 signals:
     void newData(const QByteArray& data);
@@ -86,11 +93,15 @@ private:
     int                 mRecCount;
     int                 mSendCount;
     bool                mMonitor;
+    int                 mDelay;
 
     QPair<QHostAddress, quint16>            mSource;
     QList< QPair<QHostAddress, quint16> >   mTargets;
     QStringList                             mInputs;
     DataProcessor*                          mProcessor;
+
+    QQueue<QByteArray>   mOutputQueue;
+
 };
 
 #endif /* UDPFORWARDER_H_ */

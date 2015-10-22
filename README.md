@@ -9,6 +9,6 @@ Daemon is only available on Unix systems.
 ## Building
 
 * For GUI application simply execute qmake and make.
-* For daemon release execute qmake "config += console" and make. 
+* For daemon release execute qmake "CONFIG += console" and make. 
   The binary is named udp4alld
 

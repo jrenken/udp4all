@@ -105,6 +105,8 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
             createDataProcessor(settings.value("Processor").toString(),
                     settings.value("Processor.Parameter").toString()));
 
+    forwarder->setDelay(settings.value("Delay", 0). toInt());
+
     sl = settings.value("Targets").toString().split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
     foreach (QString s, sl) {
         forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
