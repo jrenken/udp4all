@@ -2,10 +2,10 @@
  *  file:       main.cpp
  *  author:     jrenken
  *
- *  $Rev: 13 $
+ *  $Rev: 16 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
- *  $Id: main.cpp 13 2014-11-26 12:29:48Z jrenken $
+ *  $Date: 2015-10-22 12:49:56 +0200 (Do, 22. Okt 2015) $
+ *  $Id: main.cpp 16 2015-10-22 10:49:56Z jrenken $
  */
 
 #ifdef DAEMON
@@ -23,6 +23,16 @@
     #include <QtGui>
     #include <QApplication>
 #endif
+
+#define STR(x)   #x
+#define XSTR(x)  STR(x)
+
+#ifdef GITTAG
+#define __GITTAG__ XSTR(GITTAG)
+#else
+#define __GITTAG__ "V0.16.0"
+#endif
+
 
 #ifdef DAEMON
 void writePidFile()
@@ -70,7 +80,7 @@ int main(int argc, char *argv[])
             break;
         case 'v':
             std::cout << "udp4alld" << std::endl
-                      << "Rev: "SVNVERSION << std::endl
+                      << "Rev: "SVNVERSION << "  " << __GITTAG__ << std::endl
                       << "Date: "SVNDATE << std::endl
                       << "Author: Jens Renken renken@marum.de" << std::endl
                       << "(C) Copyright 2011, University of Bremen, Marum" << std::endl;

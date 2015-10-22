@@ -2,10 +2,10 @@
  *  file:   forwardmanager.h
  *  author: jrenken
  *
- *  $Rev: 13 $
+ *  $Rev: 16 $
  *  $Author: jrenken $
- *  $Date: 2014-11-26 13:29:48 +0100 (Mi, 26. Nov 2014) $
- *  $Id: forwardmanager.h 13 2014-11-26 12:29:48Z jrenken $
+ *  $Date: 2015-10-22 12:49:56 +0200 (Do, 22. Okt 2015) $
+ *  $Id: forwardmanager.h 16 2015-10-22 10:49:56Z jrenken $
  */
 
 #ifndef FORWARDMANAGER_H_

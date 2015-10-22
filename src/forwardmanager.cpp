@@ -2,10 +2,10 @@
  *  file:   forwardmanager.cpp
  *  author: jrenken
  *
- *  $Rev: 15 $
+ *  $Rev: 16 $
  *  $Author: jrenken $
- *  $Date: 2015-02-14 17:49:47 +0100 (Sa, 14. Feb 2015) $
- *  $Id: forwardmanager.cpp 15 2015-02-14 16:49:47Z jrenken $
+ *  $Date: 2015-10-22 12:49:56 +0200 (Do, 22. Okt 2015) $
+ *  $Id: forwardmanager.cpp 16 2015-10-22 10:49:56Z jrenken $
  */
 
 #include <QSettings>

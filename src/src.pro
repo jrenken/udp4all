@@ -51,4 +51,5 @@ unix {
     PRE_TARGETDEPS += svnver
     target.path = /usr/local/bin
     INSTALLS += target
+    GITTAG = $$system(git describe --abbrev=0 --tags)
 }

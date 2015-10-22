@@ -11,8 +11,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r15"
-  OutFile "udp4all-r15.exe"
+  Name "udp4all-r16"
+  OutFile "udp4all-r16.exe"
   Icon "src\images\udp4all.ico"
   XPStyle on
   
@@ -53,7 +53,7 @@
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.15.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.16.0"
 
 ;--------------------------------
 
@@ -67,11 +67,13 @@ Section "udp4all" SecDummy
   
   ;ADD YOUR OWN FILES HERE...
   File bin\udp4all.exe
-  File C:\Programme\Qt\2010.05\qt\bin\QtGui4.dll 
-  File C:\Programme\Qt\2010.05\qt\bin\QtCore4.dll
-  File C:\Programme\Qt\2010.05\qt\bin\mingwm10.dll
-  File C:\Programme\Qt\2010.05\qt\bin\QtNetwork4.dll
-  File C:\Programme\Qt\2010.05\mingw\bin\libgcc_s_dw2-1.dll 
+  File C:\usr\lib\Qt\4.8.6\bin\QtGui4.dll 
+  File C:\usr\lib\Qt\4.8.6\bin\QtCore4.dll
+  File C:\usr\lib\Qt\4.8.6\bin\QtNetwork4.dll
+  File C:\usr\lib\Qt\4.8.6\bin\libwinpthread-1.dll
+  File C:\usr\lib\MinGW\bin\mingwm10.dll
+  File C:\usr\lib\MinGW\bin\libstdc++-6.dll
+  File C:\usr\lib\MinGW\bin\libgcc_s_dw2-1.dll 
   File u4a-example.conf
   
 
