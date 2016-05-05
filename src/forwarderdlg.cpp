@@ -5,7 +5,9 @@ ForwarderDlg::ForwarderDlg(QWidget *parent, QHash<QString,QVariant> settings )
 {
 	ui.setupUi(this);
 	QStringList procs;
-	procs << "" << "Gaps2Msf" << "Gaps2Gps" << "Gaps2Prave" << "LineSplit";
+	procs << "" << "Gaps2Msf" << "Gaps2Gps"
+	      << "Gaps2Prave" << "LineSplit"
+	      << "Ais2Gps";
 	ui.comboBoxProcessors->addItems(procs);
 
 	if (!settings.isEmpty()) {

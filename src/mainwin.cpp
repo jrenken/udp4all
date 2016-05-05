@@ -91,7 +91,8 @@ void MainWin::displayRecMonitorData(const QByteArray& data)
 
 void MainWin::displaySendMonitorData(const QByteArray& data)
 {
-    QString s = QString("<b><FONT COLOR=\"#0000F0\">-> %1</FONT></b>").arg(QString(data).trimmed());
+    QString s = QString("<b><FONT COLOR=\"#0000F0\">-> %1</FONT></b>")
+            .arg(QString(data).trimmed().replace("&", "&amp;").replace("<", "&lt;"));
     ui.textEditMonitor->append(s);
 }
 
