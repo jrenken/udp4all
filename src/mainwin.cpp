@@ -20,6 +20,16 @@
 #include "nmearecord.h"
 #include "forwarderdlg.h"
 
+#define STR(x)   #x
+#define XSTR(x)  STR(x)
+
+#ifdef GITTAG
+#define __GITTAG__ XSTR(GITTAG)
+#else
+#define __GITTAG__ "V0.16.0"
+#endif
+
+
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -143,13 +153,17 @@ void MainWin::on_actionConfigFileExample_triggered()
 
 void MainWin::on_actionAbout_triggered()
 {
-    QString versionInfo =   "<B>udp4all</B><p>"
-                            "Rev: "SVNVERSION" $<p>"
-                            "Date: "SVNDATE" $<p>"
-                            "$Author: jrenken $   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
+    QString versionInfo =   "<B>udp4all " __GITTAG__ "</B><p>"
+#ifdef GITDATE
+                            "Date: " XSTR(GITDATE) "<p>"
+#endif
+                            "Author: jrenken   <a href=mailto:renken@marum.de>renken@marum.de</a><p>"
                             "(C) <i>Copyright 2011</i>, <b>University of Bremen, Marum</b>";
+#ifdef GITHASH
+    versionInfo += "<p>Commit: <b>" XSTR(GITHASH) "</b>";
+#endif
     QMessageBox::about ( this,
-                    "About udp4all", versionInfo.replace('$', ' '));
+                    "About udp4all", versionInfo);
 }
 
 void MainWin::on_actionMonitor_triggered()

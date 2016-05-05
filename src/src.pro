@@ -45,11 +45,22 @@ OBJECTS_DIR = ../obj
 DESTDIR = ../bin
 MOC_DIR = moc
 unix { 
-    svnversion.target = svnver
-    svnversion.commands = ../mksvnver
-    QMAKE_EXTRA_TARGETS += svnversion
-    PRE_TARGETDEPS += svnver
     target.path = /usr/local/bin
     INSTALLS += target
+    GITHASH = $$system(git log -1 --pretty=format:"%h")
     GITTAG = $$system(git describe --abbrev=0 --tags)
+    GITDATE = $$system(git log -1 --date=iso --pretty=format:"%cd")
+    DEFINES += GITHASH=$$GITHASH \
+        GITTAG=$$GITTAG \
+        GITDATE="\'$$GITDATE\'"
+        
 }
+#unix { 
+#    svnversion.target = svnver
+#    svnversion.commands = ../mksvnver
+#    QMAKE_EXTRA_TARGETS += svnversion
+#    PRE_TARGETDEPS += svnver
+#    target.path = /usr/local/bin
+#    INSTALLS += target
+#    GITTAG = $$system(git describe --abbrev=0 --tags)
+#}
