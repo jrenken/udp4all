@@ -18,6 +18,8 @@ public:
         return "LineSplit";
     }
     virtual QList<QByteArray> processData(const QByteArray& data);
+private:
+    QByteArray  mBuffer;
 };
 
 
