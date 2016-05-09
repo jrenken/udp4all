@@ -9,6 +9,7 @@
  */
 
 #include <QString>
+#include <math.h>
 #include "nmearecord.h"
 
 const int NmeaRecord::MaxFields = 64;
@@ -151,4 +152,65 @@ void NmeaRecord::setSize(int size)
     while (newSize > mFields.size()) {
         mFields.append(QByteArray());
     }
+}
+
+double NmeaRecord::fromDDM(int vIdx, int hIdx, double defaultVal) const {
+    int idx = mFields[vIdx].indexOf('.');
+    if (idx < 2) {
+        return defaultVal;
+    }
+    bool ok;
+    qreal val = mFields[vIdx].mid(0, idx - 2).toDouble(&ok);
+    if (ok) {
+        val += mFields[vIdx].mid(idx - 2).toDouble(&ok) / 60.0;
+        if (ok) {
+            if (hIdx) {
+                if ((mFields[hIdx] == "S") || (mFields[hIdx] == "W")) {
+                    val = -val;
+                }
+            }
+            return val;
+        }
+    }
+    return defaultVal;
+}
+
+void NmeaRecord::toDDM(double val, int vIdx, int latLon, int hIdx, int prec)
+{
+    double wrapped = fmod(val, 360.0);
+
+    if (wrapped > 180.0) {
+        wrapped -= 360.0;
+    } else if (wrapped < -180.0) {
+        wrapped += 360.0;
+    }
+    int deg = int(qAbs(wrapped));
+    double min = double((qAbs(wrapped) - deg) * 60);
+
+    if (qRound(min * pow(10.0, prec)) > 60 * pow(10.0, prec)) {
+        min = qMax(min - 60, 0.0);
+        deg++;
+    }
+    QString hemi;
+    QString sign;
+
+    if (hIdx != 0) {
+        hemi = val < 0 ? (latLon ? "W" : "S") : (latLon ? "E" : "N");
+    } else {
+        if (val < 0)
+            sign = "-";
+    }
+    if (deg == 0 && qRound(min * pow(10.0, prec)) == 0) {
+        sign = QString();
+        hemi = QString();
+    }
+    if (deg == 180 && qRound(min * pow(10.0, prec)) == 0) {
+        hemi = QString();
+    }
+
+    QString coord = QString("%1%2%3").arg(sign).arg(deg, latLon ? 3 : 2, 10,
+            QChar('0')).arg(min, 3 + prec, 'f', prec, QChar('0'));
+    setField(vIdx, coord.toLatin1());
+    if (hIdx)
+        setField(hIdx, hemi.toLatin1());
 }

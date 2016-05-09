@@ -18,6 +18,8 @@
 class NmeaRecord
 {
 public:
+    enum { Lat, Lon };
+
     static const int MaxFields;
 
     NmeaRecord(int size = 1);
@@ -36,6 +38,9 @@ public:
     void setField(int i, int val);
     void setField(int i, double val);
     void setField(int i, const QByteArray &val);
+
+    double fromDDM(int vIdx, int hIdx = 0, double defaultVal = 0.0) const;
+    void toDDM(double val, int vIdx, int latLon, int hIdx = 0, int prec = 6);
 
 
     int numberOfFields();

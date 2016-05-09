@@ -95,28 +95,17 @@ QList<QByteArray> Ais2GpsProcessor::decodePayload(const QByteArray& pl)
             mGGA.setField(1, QString("%1%2%3.00").arg(dt.time().hour(), 2, 10, QLatin1Char('0'))
                     .arg(dt.time().minute(), 2, 10, QLatin1Char('0'))
                     .arg(dt.time().second(), 2, 10, QLatin1Char('0')).toLatin1());
-            mGGA.setField(2, QString("%1%2")
-                    .arg(int(qAbs(lat)), 2, 10, QLatin1Char('0') )
-                    .arg((qAbs(lat) - int(qAbs(lat))) * 60.0, 5, 'f', 4, QLatin1Char('0')).toLatin1());
-            mGGA.setField(3, lat > 0 ? "N" : "S");
-            mGGA.setField(4, QString("%1%2")
-                    .arg(int(qAbs(lon)), 3, 10, QLatin1Char('0') )
-                    .arg((qAbs(lon) - int(qAbs(lon))) * 60.0, 5, 'f', 4, QLatin1Char('0')).toLatin1());
-            mGGA.setField(5, lon > 0 ? "E" : "W");
+            mGGA.toDDM(lat, 2, NmeaRecord::Lat, 3, 5);
+            mGGA.toDDM(lon, 4, NmeaRecord::Lon, 5, 5);
+
             list.append(mGGA.sentence(true));
         }
         if (mSendGLL) {
             mGLL.setField(5, QString("%1%2%3").arg(dt.time().hour(), 2, 10, QLatin1Char('0'))
                     .arg(dt.time().minute(), 2, 10, QLatin1Char('0'))
                     .arg(dt.time().second(), 2, 10, QLatin1Char('0')).toLatin1());
-            mGLL.setField(1, QString("%1%2")
-                    .arg(int(qAbs(lat)), 2, 10, QLatin1Char('0') )
-                    .arg((qAbs(lat) - int(qAbs(lat))) * 60.0, 5, 'f', 4, QLatin1Char('0')).toLatin1());
-            mGLL.setField(2, lat > 0 ? "N" : "S");
-            mGLL.setField(3, QString("%1%2")
-                    .arg(int(qAbs(lon)), 3, 10, QLatin1Char('0') )
-                    .arg((qAbs(lon) - int(qAbs(lon))) * 60.0, 5, 'f', 4, QLatin1Char('0')).toLatin1());
-            mGLL.setField(4, lon > 0 ? "E" : "W");
+            mGLL.toDDM(lat, 1, NmeaRecord::Lat, 2, 5);
+            mGLL.toDDM(lon, 3, NmeaRecord::Lon, 4, 5);
             list.append(mGLL.sentence(true));
         }
         if (mSendVTG) {
