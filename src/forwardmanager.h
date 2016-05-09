@@ -46,6 +46,7 @@ public:
     bool monitor(const QString& forw) const;
 
     void reportForwarders();
+    QString report() const;
 
 #ifndef DAEMON
     QAbstractItemModel* model() const {

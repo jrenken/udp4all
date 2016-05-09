@@ -12,11 +12,13 @@
     #include <QCoreApplication>
     #include <QSettings>
     #include <QFile>
+    #include <QByteArray>
     #include <signal.h>
     #include <unistd.h>
     #include <iostream>
     #include "forwardmanager.h"
     #include "logger.h"
+    #include "reportserver.h"
     #include "svnversion.h"
 #else
     #include "mainwin.h"
@@ -71,16 +73,25 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 #else
     bool    daemonize   = true;
+    quint16 reportPort = 8181;
     int     opt;
     QString configFile;
 
-    while ((opt = getopt(argc, argv, "dvc:")) != -1) {
+    while ((opt = getopt(argc, argv, "dvc:p:")) != -1) {
         switch (opt) {
         case 'd':
             daemonize = false;
             break;
         case 'c':
             configFile = optarg;
+            break;
+        case 'p':
+            quint16 port;
+            bool ok;
+            port = QByteArray(optarg).toUInt(&ok);
+            if (ok) {
+                reportPort = port;
+            }
             break;
         case 'v':
             std::cout << "udp4alld" << std::endl
@@ -112,6 +123,12 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
         writePidFile();
+    }
+    if (reportPort != 0) {
+        ReportServer *reportServer = new ReportServer(&a);
+        if (reportServer->listen(reportPort)) {
+            logger->logMessage(QCoreApplication::tr("Started report server on port %1").arg(reportPort));
+        }
     }
     logger->logMessage(QCoreApplication::tr("Started udp4all with pid %1").arg(getpid()));
     signal(SIGTERM, signalHandler);

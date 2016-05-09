@@ -32,7 +32,9 @@ SCRIPTNAME=/etc/init.d/$NAME
 if [ -n "$UDP4ALL_CONFIG" ]; then
         DAEMON_ARGS="$DAEMON_ARGS -c $UDP4ALL_CONFIG"
 fi
-
+if [ -n "$UDP4ALL_REPORT_PORT"]; then
+        DAEMON_ARGS="$DAEMON_ARGS -p $UDP4ALL_REPORT_PORT"
+fi
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh

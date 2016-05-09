@@ -1,5 +1,7 @@
 TEMPLATE = app
 TARGET = udp4all
+#CONFIG += console
+
 QT += core \
     gui \
     network
@@ -7,8 +9,10 @@ console {
     QT -= gui
     TARGET = udp4alld
     DEFINES += DAEMON
-    HEADERS += logger.h
-    SOURCES += logger.cpp
+    HEADERS += reportserver.h \
+        logger.h
+    SOURCES += reportserver.cpp \
+        logger.cpp
     message("Build daemon udp4alld")
 }
 else { 

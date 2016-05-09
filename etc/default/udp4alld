@@ -1,2 +1,3 @@
 # Default settings for udp4alld
 UDP4ALL_CONFIG="/home/jrenken/.config/Marum/udp4all.conf"
+# UDP4ALL_REPORT_PORT=8181

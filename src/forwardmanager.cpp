@@ -256,3 +256,13 @@ void ForwardManager::reportForwarders()
         emit newMessage(r);
     }
 }
+
+QString ForwardManager::report() const
+{
+    QString report;
+    foreach (QString key, mForwarders.keys()) {
+        QString r = mForwarders.value(key)->report();
+        report += (r + "\n");
+    }
+    return report;
+}
