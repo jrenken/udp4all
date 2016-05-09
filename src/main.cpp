@@ -55,7 +55,11 @@ void signalHandler(int nr)
     } else if (nr == SIGHUP) {
         Logger::logMessage(QCoreApplication::tr("Reload configuration not implemented yet"));
     } else if (nr == SIGUSR1) {
-        Logger::logMessage(QCoreApplication::tr("Received SIGUSR1: Nothing yet"));
+        ForwardManager *m = ForwardManager::instance();
+        if (!m)
+            Logger::logMessage(QCoreApplication::tr("Received SIGUSR1: Nothing yet"));
+        else
+            m->reportForwarders();
     }
 }
 
@@ -103,13 +107,13 @@ int main(int argc, char *argv[])
     }
     ForwardManager::instance()->loadConfiguration(*settings);
     ForwardManager::instance()->bindAll();
-    logger->logMessage(QCoreApplication::tr("Started udp4all"));
     if (daemonize) {
         if (daemon(0, 0) == -1) {
             exit(EXIT_FAILURE);
         }
         writePidFile();
     }
+    logger->logMessage(QCoreApplication::tr("Started udp4all with pid %1").arg(getpid()));
     signal(SIGTERM, signalHandler);
     signal(SIGHUP, signalHandler);
     signal(SIGUSR1, signalHandler);

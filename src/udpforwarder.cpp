@@ -71,6 +71,14 @@ QString UdpForwarder::processor() const
     return mProcessor->typeName();
 }
 
+QString UdpForwarder::processorParameter() const
+{
+    if (mProcessor == 0)
+        return "";
+    return mProcessor->parameter();
+}
+
+
 void UdpForwarder::setSource(const QString& addr, quint16 port)
 {
     mSource.first.setAddress(addr);
@@ -215,4 +223,20 @@ QHash<QString,QVariant> UdpForwarder::settings() const
         settings.insert("Processor.Parameter", mProcessor->parameter());
     settings.insert("Targets", targets());
     return settings;
+}
+
+QString UdpForwarder::report() const
+{
+    QString rep = QString("%1; Inputs: %2; Source: %3; Processor: %4 %5; "
+                          "Targets: %6; Delay: %7; Received: %8; Send: %9")
+                           .arg(objectName())
+                           .arg(inputs())
+                           .arg(source())
+                           .arg(processor())
+                           .arg(processorParameter())
+                           .arg(targets())
+                           .arg(mDelay)
+                           .arg(mRecCount)
+                           .arg(mSendCount);
+    return rep;
 }

@@ -47,6 +47,7 @@ public:
     QString targets() const;
     QString inputs() const;
     QString processor() const;
+    QString processorParameter() const;
 
     int     delay() const;
     void    setDelay(int delay);
@@ -72,6 +73,8 @@ public:
     QHash<QString,QVariant> settings() const;
 
     void sendData(const QByteArray& ba);
+
+    QString report() const;
 
 public slots:
     void handleData(const QByteArray& data);

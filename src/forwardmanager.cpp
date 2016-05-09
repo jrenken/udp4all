@@ -248,3 +248,11 @@ void ForwardManager::saveConfiguration(QSettings& settings)
     }
     settings.endArray();
 }
+
+void ForwardManager::reportForwarders()
+{
+    foreach (QString key, mForwarders.keys()) {
+        QString r = mForwarders.value(key)->report();
+        emit newMessage(r);
+    }
+}
