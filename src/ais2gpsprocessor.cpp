@@ -134,7 +134,7 @@ QList<QByteArray> Ais2GpsProcessor::decodePayload(const QByteArray& pl)
             list.append(mVTG.sentence(true));
         }
         if (mSendMSF) {
-            if (mMsfBug) {
+            if (!mMsfBug) {
                 mMSF.setField(1, dt.toString("yyyyMMdd").toLatin1());
             } else {
                 mMSF.setField(1, ("2012" + dt.toString("MMdd")).toLatin1());
