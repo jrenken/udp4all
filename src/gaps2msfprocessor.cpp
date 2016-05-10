@@ -19,9 +19,9 @@ Gaps2MsfProcessor::Gaps2MsfProcessor(const QString& parList)
     mMsf.setRecord(QByteArray("$MSF,,,SHIP,MyBoat,MSF0,,,0,0,0,0,0,0,0,0,"));
     if (list.size() > 0 && !list.at(0).isEmpty())
         mMsf[3] = list.at(0).toAscii();
-    if (list.size() > 1 && !list.at(0).isEmpty())
+    if (list.size() > 1 && !list.at(1).isEmpty())
         mMsf[4] = list.at(1).toAscii();
-    if (list.size() > 2 && !list.at(0).isEmpty())
+    if (list.size() > 2 && !list.at(2).isEmpty())
         mMsf[5] = list.at(2).toAscii();
     if (list.indexOf("mbug") != -1) {
         mBug = true;
