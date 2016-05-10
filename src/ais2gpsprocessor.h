@@ -27,7 +27,10 @@ private:
     NmeaRecord  mGGA;
     NmeaRecord  mGLL;
     NmeaRecord  mVTG;
-    bool        mSendGLL, mSendGGA, mSendVTG;
+    NmeaRecord  mMSF;
+    bool        mSendGLL, mSendGGA, mSendVTG, mSendMSF;
+    bool        mMsfBug;
+
 };
 
 class BitVector

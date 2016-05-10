@@ -16,13 +16,15 @@ Ais2GpsProcessor::Ais2GpsProcessor(const QString& parList)
       mMmsi(0),
       mSendGLL(true),
       mSendGGA(true),
-      mSendVTG(true)
+      mSendVTG(true),
+      mSendMSF(false),
+      mMsfBug(false)
 {
     bool ok;
     mGLL.setRecord(QByteArray("$GPGLL,5301.4970,N,00852.1740,E,114015,A,"));
     mGGA.setRecord(QByteArray("$GPGGA,114035.00,5301.4970,N,00852.1740,E,2,,,-0000.0,M,,,,"));
     mVTG.setRecord(QByteArray("$GPVTG,360.0,T,,,000.0,N,,"));
-
+    mMSF.setRecord(QByteArray("$MSF,,,SHIP,MyBoat,MSF0,,,0,0,0,0,0,0,0,0,"));
     QStringList list = parList.split(' ');
     if (list.size() > 0) {
         int id = list.at(0).toInt(&ok);
@@ -35,6 +37,20 @@ Ais2GpsProcessor::Ais2GpsProcessor(const QString& parList)
         mSendGLL = false;
     if (list.contains("-VTG", Qt::CaseInsensitive))
         mSendVTG = false;
+    int msf = list.indexOf("+MSF");
+    if (msf != -1) {
+        mSendMSF = true;
+
+        if (list.size() > msf && !list.at(msf).isEmpty())
+            mMSF[3] = list.at(0).toAscii();
+        if (list.size() > (msf + 1) && !list.at(msf + 1).isEmpty())
+            mMSF[4] = list.at(1).toAscii();
+        if (list.size() > (msf + 2) && !list.at(msf + 2).isEmpty())
+            mMSF[5] = list.at(2).toAscii();
+        if (list.indexOf("mbug") != -1) {
+            mMsfBug = true;
+        }
+    }
 
 }
 
@@ -78,17 +94,20 @@ QList<QByteArray> Ais2GpsProcessor::decodePayload(const QByteArray& pl)
             v -= 8;
         vec.append(v, 6);
     }
+    int offs = 0;
     quint32 type = vec.toUInt(0, 6);
-    if ((type < 1) || (type > 3))
+    if (type == 18 || type == 19) {
+        offs = -4;
+    } else if ((type < 1) || (type > 3))
         return list;
 
     quint32 mmsi = vec.toUInt(8, 30);
     if (int(mmsi) == mMmsi) {
-        double lat = int(vec.toUInt(89, 27)) / 600000.0;
-        double lon = int(vec.toUInt(61, 28)) / 600000.0;
-        quint32 sec = vec.toUInt(137, 6);
-        double cog = vec.toUInt(116, 12) * 0.1;
-        double speed = vec.toUInt(50, 10) * 0.1;
+        double lat = int(vec.toUInt(89 + offs, 27)) / 600000.0;
+        double lon = int(vec.toUInt(61 + offs, 28)) / 600000.0;
+        quint32 sec = vec.toUInt(137 + offs, 6);
+        double cog = vec.toUInt(116 + offs, 12) * 0.1;
+        double speed = vec.toUInt(50 + offs, 10) * 0.1;
         QDateTime dt = QDateTime::currentDateTimeUtc();
         dt.setTime(QTime(dt.time().hour(), dt.time().minute(), sec));
         if (mSendGGA) {
@@ -112,6 +131,18 @@ QList<QByteArray> Ais2GpsProcessor::decodePayload(const QByteArray& pl)
             mVTG.setField(1, QString("%1").arg(cog, 5, 'f', 1, QLatin1Char('0')).toLatin1());
             mVTG.setField(5, QString("%1").arg(speed, 5, 'f', 1, QLatin1Char('0')).toLatin1());
             list.append(mVTG.sentence(true));
+        }
+        if (mSendMSF) {
+            if (mMsfBug) {
+                mMSF.setField(1, dt.toString("yyyyMMdd").toLatin1());
+            } else {
+                mMSF.setField(1, ("2012" + dt.toString("MMdd")).toLatin1());
+            }
+            mMSF.setField(2, dt.toString("hhmmss").toLatin1());
+            mMSF.setField(6, lat);
+            mMSF.setField(7, lon);
+            mMSF.setField(10, cog, 1);
+            list.append(mMSF.sentence(true));
         }
     }
     return list;

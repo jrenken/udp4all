@@ -112,9 +112,12 @@ void NmeaRecord::setField(int i, int val)
     field(i) = QByteArray::number(val);
 }
 
-void NmeaRecord::setField(int i, double val)
+void NmeaRecord::setField(int i, double val, int prec)
 {
-    field(i) = QByteArray::number(val, 'f', mPrecision);
+    if (prec > 0)
+        field(i) = QByteArray::number(val, 'f', prec);
+    else
+        field(i) = QByteArray::number(val, 'f', mPrecision);
 }
 
 void NmeaRecord::setField(int i, const QByteArray &val)

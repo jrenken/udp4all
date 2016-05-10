@@ -36,7 +36,7 @@ public:
 //    double operator[](int i);
 
     void setField(int i, int val);
-    void setField(int i, double val);
+    void setField(int i, double val, int prec = -1);
     void setField(int i, const QByteArray &val);
 
     double fromDDM(int vIdx, int hIdx = 0, double defaultVal = 0.0) const;
