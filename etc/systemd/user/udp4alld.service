@@ -1,0 +1,15 @@
+[Unit]
+Description=Job that runs the foo daemon
+Documentation=
+
+[Service]
+Type=forking
+#Environment=UDP4ALL_CONFIG=/home/jrenken/.config/Marum/udp4all.conf
+#Environment=UDP4ALL_REPORT_PORT=8181
+EnvironmentFile=/etc/default/udp4alld
+ExecStartPre=
+ExecStart=/usr/local/bin/udp4alld -c $UDP4ALL_CONFIG -p $UDP4ALL_REPORT_PORT
+
+[Install]
+WantedBy=multi-user.target
+

@@ -2,10 +2,10 @@
  *  file:       main.cpp
  *  author:     jrenken
  *
- *  $Rev: 16 $
+ *  $Rev: 17 $
  *  $Author: jrenken $
- *  $Date: 2015-10-22 12:49:56 +0200 (Do, 22. Okt 2015) $
- *  $Id: main.cpp 16 2015-10-22 10:49:56Z jrenken $
+ *  $Date: 2016-06-03 10:16:49 +0200 (Fr, 03. Jun 2016) $
+ *  $Id: main.cpp 17 2016-06-03 08:16:49Z jrenken $
  */
 
 #ifdef DAEMON
