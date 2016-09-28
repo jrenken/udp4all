@@ -73,11 +73,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 #else
     bool    daemonize   = true;
+    bool    rawReport = false;
     quint16 reportPort = 8181;
     int     opt;
     QString configFile;
 
-    while ((opt = getopt(argc, argv, "dvc:p:")) != -1) {
+    while ((opt = getopt(argc, argv, "dvrc:p:")) != -1) {
         switch (opt) {
         case 'd':
             daemonize = false;
@@ -92,6 +93,9 @@ int main(int argc, char *argv[])
             if (ok) {
                 reportPort = port;
             }
+            break;
+        case 'r':
+            rawReport = true;
             break;
         case 'v':
             std::cout << "udp4alld" << std::endl
@@ -126,7 +130,7 @@ int main(int argc, char *argv[])
     }
     if (reportPort != 0) {
         ReportServer *reportServer = new ReportServer(&a);
-        if (reportServer->listen(reportPort)) {
+        if (reportServer->listen(reportPort, !rawReport)) {
             logger->logMessage(QCoreApplication::tr("Started report server on port %1").arg(reportPort));
         }
     }

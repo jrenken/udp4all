@@ -74,7 +74,7 @@ public:
 
     void sendData(const QByteArray& ba);
 
-    QString report() const;
+    QString report(bool html = true) const;
 
 public slots:
     void handleData(const QByteArray& data);

@@ -9,7 +9,6 @@
  */
 
 #include <QTimer>
-#include <QDebug>
 #include "udpforwarder.h"
 
 
@@ -225,13 +224,27 @@ QHash<QString,QVariant> UdpForwarder::settings() const
     return settings;
 }
 
-QString UdpForwarder::report() const
+QString UdpForwarder::report(bool html) const
 {
-    QString rep = QString("%1; Inputs: %2; Source: %3; Processor: %4 %5; "
-                          "Targets: %6; Delay: %7; Received: %8; Send: %9")
-                           .arg(objectName())
-                           .arg(inputs())
+    QString fmt;
+    if (html)
+        fmt = "<tr>\n"
+                "<td>%1</td>\n"
+                "<td>%2</td>\n"
+                "<td>%3</td>\n"
+                "<td>%4 %5</td>\n"
+                "<td>%6</td>\n"
+                "<td>%7</td>\n"
+                "<td>%8</td>\n"
+                "<td>%9</td>\n"
+                ;
+    else
+        fmt = "%1; Source: %2; Inputs: %3; Processor: %4 %5; "
+                "Targets: %6; Delay: %7; Received: %8; Send: %9";
+
+    QString rep = fmt.arg(objectName())
                            .arg(source())
+                           .arg(inputs())
                            .arg(processor())
                            .arg(processorParameter())
                            .arg(targets())

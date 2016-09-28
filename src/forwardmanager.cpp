@@ -10,7 +10,6 @@
 
 #include <QSettings>
 #include <QCoreApplication>
-#include <QDebug>
 #include "forwardmanager.h"
 #include "linesplitprocessor.h"
 #include "gaps2gpsprocessor.h"
@@ -257,12 +256,40 @@ void ForwardManager::reportForwarders()
     }
 }
 
-QString ForwardManager::report() const
+QString ForwardManager::report(bool html) const
 {
     QString report;
+
+    if (html)
+        report = "HTTP/1.1 200 OK\n"
+                "Content-Type: text/html\n"
+                "Connection: close\n"
+                "Refresh: 3\n\n"
+                "<!DOCTYPE HTML>\n"
+                "<html lang=\"en\">\n"
+                "<head>\n"
+                "<meta charset=\"utf-8\">\n"
+                "<title>udp4all Report</title>\n"
+                "<style> table, td, th { border: 1px solid black; } </style>\n"
+                "</head>\n"
+                "<body>\n"
+                "<h1>udp4all Report</h1>"
+                "<table>\n<tr>\n"
+                "<th>Name</th>"
+                "<th>Source</th>"
+                "<th>Inputs</th>"
+                "<th>Processor</th>"
+                "<th>Targets</th>"
+                "<th>Delay</th>"
+                "<th>Received</th>"
+                "<th>Sent</th>"
+                "</tr>\n";
+
     foreach (QString key, mForwarders.keys()) {
-        QString r = mForwarders.value(key)->report();
+        QString r = mForwarders.value(key)->report(html);
         report += (r + "\n");
     }
+    if (html)
+        report += "</table></body></html>\n";
     return report;
 }

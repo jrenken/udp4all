@@ -19,10 +19,11 @@ class ReportServer : public QObject
 public:
     ReportServer(QObject* parent = 0);
 
-    bool listen(quint16 port);
+    bool listen(quint16 port, bool html = true);
 
 private:
     QTcpServer*  mServer;
+    bool         mHtml;
 
 private slots:
     void sendReport();

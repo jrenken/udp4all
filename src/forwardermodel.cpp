@@ -52,7 +52,7 @@ QVariant ForwarderModel::data(const QModelIndex &index, int role) const
         case 3:
             return fw->inputs();
         case 4:
-            return fw->processor();
+            return fw->processor() + " " + fw->processorParameter();
         case 5:
             return fw->statistics().first;
         case 6:
