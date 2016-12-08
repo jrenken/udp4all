@@ -11,7 +11,7 @@
 #ifndef MAINWIN_H
 #define MAINWIN_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include <QUdpSocket>
 #include <QPair>
 #include <QList>

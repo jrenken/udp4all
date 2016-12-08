@@ -18,11 +18,11 @@ Gaps2MsfProcessor::Gaps2MsfProcessor(const QString& parList)
     QStringList list = parList.split(' ');
     mMsf.setRecord(QByteArray("$MSF,,,SHIP,MyBoat,MSF0,,,0,0,0,0,0,0,0,0,"));
     if (list.size() > 0 && !list.at(0).isEmpty())
-        mMsf[3] = list.at(0).toAscii();
+        mMsf[3] = list.at(0).toLatin1();
     if (list.size() > 1 && !list.at(1).isEmpty())
-        mMsf[4] = list.at(1).toAscii();
+        mMsf[4] = list.at(1).toLatin1();
     if (list.size() > 2 && !list.at(2).isEmpty())
-        mMsf[5] = list.at(2).toAscii();
+        mMsf[5] = list.at(2).toLatin1();
     if (list.indexOf("mbug") != -1) {
         mBug = true;
     }

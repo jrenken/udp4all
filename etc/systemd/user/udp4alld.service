@@ -1,5 +1,5 @@
 [Unit]
-Description=Job that runs the foo daemon
+Description=Starts daemon version of UDP forwarder udp4alld
 Documentation=
 
 [Service]

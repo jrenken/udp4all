@@ -43,11 +43,11 @@ Ais2GpsProcessor::Ais2GpsProcessor(const QString& parList)
         mSendMSF = true;
 
         if (list.size() > msf && !list.at(msf).isEmpty())
-            mMSF[3] = list.at(msf).toAscii();
+            mMSF[3] = list.at(msf).toLatin1();
         if (list.size() > (msf + 1) && !list.at(msf + 1).isEmpty())
-            mMSF[4] = list.at(msf + 1).toAscii();
+            mMSF[4] = list.at(msf + 1).toLatin1();
         if (list.size() > (msf + 2) && !list.at(msf + 2).isEmpty())
-            mMSF[5] = list.at(msf + 2).toAscii();
+            mMSF[5] = list.at(msf + 2).toLatin1();
         if (list.indexOf("mbug") != -1) {
             mMsfBug = true;
         }

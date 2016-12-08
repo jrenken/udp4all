@@ -22,7 +22,6 @@
     #include "svnversion.h"
 #else
     #include "mainwin.h"
-    #include <QtGui>
     #include <QApplication>
 #endif
 

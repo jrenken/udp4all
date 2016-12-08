@@ -1,7 +1,7 @@
 #ifndef FORWARDERDLG_H
 #define FORWARDERDLG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include "udpforwarder.h"
 #include "ui_forwarderdlg.h"
 

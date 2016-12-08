@@ -61,7 +61,7 @@ QByteArray NmeaRecord::checkSum(const QByteArray &ba)
             break;
         cs ^= ba.at(i);
     }
-    return QString("*%1").arg(cs & 0x00FF, 2, 16, QLatin1Char('0')).toUpper().toAscii();
+    return QString("*%1").arg(cs & 0x00FF, 2, 16, QLatin1Char('0')).toUpper().toLatin1();
 }
 
 int NmeaRecord::setRecord(const QByteArray& rec)
@@ -80,7 +80,7 @@ int NmeaRecord::setRecord(const QByteArray& rec)
 
 int NmeaRecord::setRecord(const QString& rec)
 {
-    return setRecord(rec.toAscii());
+    return setRecord(rec.toLatin1());
 }
 
 

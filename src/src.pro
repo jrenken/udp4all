@@ -3,10 +3,11 @@ TARGET = udp4all
 #CONFIG += console
 
 QT += core \
+    widgets \
     gui \
     network
 console { 
-    QT -= gui
+    QT -= gui widgets
     TARGET = udp4alld
     DEFINES += DAEMON
     HEADERS += reportserver.h \

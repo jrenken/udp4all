@@ -30,7 +30,9 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
     void updateData() {
-        reset();
+        beginResetModel();
+        endResetModel();
+        //reset();
     }
 
 protected:
