@@ -18,6 +18,8 @@ public:
         return "Gaps2Msf";
     }
     virtual QList<QByteArray> processData(const QByteArray& data);
+
+    static QString doc();
 private:
     NmeaRecord  mMsf;
     bool        mBug;

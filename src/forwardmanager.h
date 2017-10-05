@@ -48,6 +48,7 @@ public:
     void reportForwarders();
     QString report(bool html = true) const;
 
+    static QString doc();
 #ifndef DAEMON
     QAbstractItemModel* model() const {
         return mForwarderModel;

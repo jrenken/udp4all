@@ -20,6 +20,7 @@ public:
     virtual QList<QByteArray> processData(const QByteArray& data);
     QList<QByteArray> decodePayload(const QByteArray& pl);
 
+    static QString doc();
 private:
     QByteArray  mBuffer;
     QByteArray  mPayload;

@@ -29,6 +29,8 @@ public:
     QString parameter() const {
         return mParameter;
     }
+
+    static QString doc();
 protected:
     QString mParameter;
 };

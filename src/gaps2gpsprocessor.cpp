@@ -40,21 +40,32 @@ QList<QByteArray> Gaps2GpsProcessor::processData(const QByteArray& data)
        if (n.isEmpty()) continue;
        if (n.header() == "$PTSAG") {
            if (n[6].toInt() == mBeaconId) {
-               mGGA[1] = n[2];
-               mGGA[2] = n[7];
-               mGGA[3] = n[8];
-               mGGA[4] = n[9];
-               mGGA[5] = n[10];
-
-               mGLL[5] = n[2];
-               mGLL[1] = n[7];
-               mGLL[2] = n[8];
-               mGLL[3] = n[9];
-               mGLL[4] = n[10];
-               out.append(mGGA.sentence(true));
-               out.append(mGLL.sentence(true));
+               if (mSendGGA) {
+                   mGGA[1] = n[2];
+                   mGGA[2] = n[7];
+                   mGGA[3] = n[8];
+                   mGGA[4] = n[9];
+                   mGGA[5] = n[10];
+                   out.append(mGGA.sentence(true));
+               }
+               if (mSendGLL) {
+                   mGLL[5] = n[2];
+                   mGLL[1] = n[7];
+                   mGLL[2] = n[8];
+                   mGLL[3] = n[9];
+                   mGLL[4] = n[10];
+                   out.append(mGLL.sentence(true));
+               }
            }
        }
    }
    return out;
+}
+
+QString Gaps2GpsProcessor::doc()
+{
+    return "Gaps2Gps: Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences.\n"
+           "    Parameter:  numeric beacon id [0..15]\n"
+           "                -GGA: inhibit GGA output\n"
+           "                -GLL: inhibit GLL output\n\n";
 }

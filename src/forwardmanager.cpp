@@ -177,6 +177,13 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QS
     return 0;
 }
 
+QString ForwardManager::doc()
+{
+    return "Available DataProcessors\n\n" + LineSplitProcessor::doc()
+            + Gaps2MsfProcessor::doc() +  Gaps2GpsProcessor::doc()
+            + Gaps2PraveProcessor::doc() + Ais2GpsProcessor::doc();
+}
+
 void ForwardManager::setMonitor(bool mon)
 {
     foreach (UdpForwarder* fw, mForwarders.values()) {

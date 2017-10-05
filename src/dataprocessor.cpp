@@ -29,3 +29,7 @@ QList<QByteArray> DataProcessor::processData(const QByteArray& data)
     return list;
 }
 
+QString DataProcessor::doc()
+{
+    return "DataProcessor:      Base class for all processors\n\n";
+}

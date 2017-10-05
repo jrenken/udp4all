@@ -18,6 +18,8 @@ public:
         return "Gaps2Gps";
     }
     virtual QList<QByteArray> processData(const QByteArray& data);
+
+    static QString doc();
 private:
     NmeaRecord  mGGA;
     NmeaRecord  mGLL;

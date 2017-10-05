@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     int     opt;
     QString configFile;
 
-    while ((opt = getopt(argc, argv, "dvrhc:p:")) != -1) {
+    while ((opt = getopt(argc, argv, "dDvrhc:p:")) != -1) {
         switch (opt) {
         case 'd':
             daemonize = false;
@@ -112,6 +112,10 @@ int main(int argc, char *argv[])
                       << "    -r:               report in textformat, default is HTML\n"
                       << "    -p <portnumber>:  set portnumber for web/raw report\n"
                       << "    -c <configfile>:  read configuration from configfile. Default is platform dependent settings registry.\n";
+            exit(0);
+        case 'D':
+            std::cout << ForwardManager::doc().toStdString();
+            exit(0);
        }
     }
     QCoreApplication a(argc, argv);

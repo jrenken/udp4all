@@ -43,6 +43,7 @@ public slots:
     void on_actionEditForwarder_triggered();
     void on_actionDeleteForwarder_triggered();
     void on_actionConfigFileExample_triggered();
+    void on_actionDataProcessorInfo_triggered();
 
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);

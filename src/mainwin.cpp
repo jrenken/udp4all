@@ -14,6 +14,7 @@
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QItemSelectionModel>
+#include <QFont>
 #include <QDebug>
 
 #include "nmearecord.h"
@@ -150,6 +151,19 @@ void MainWin::on_actionConfigFileExample_triggered()
     }
 }
 
+void MainWin::on_actionDataProcessorInfo_triggered()
+{
+    QMessageBox msgBox;
+    QFont font("Courier10");
+    font.setFixedPitch(true);
+    msgBox.setFont(font);
+    msgBox.setText("DataProcessor Info");
+    msgBox.setStandardButtons(QMessageBox::Close);
+    msgBox.setDefaultButton(QMessageBox::Close);
+    msgBox.setInformativeText(ForwardManager::doc());
+    msgBox.showExtension(true);
+    msgBox.exec();
+}
 
 void MainWin::on_actionAbout_triggered()
 {

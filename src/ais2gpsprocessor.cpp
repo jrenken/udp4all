@@ -149,6 +149,20 @@ QList<QByteArray> Ais2GpsProcessor::decodePayload(const QByteArray& pl)
     return list;
 }
 
+QString Ais2GpsProcessor::doc()
+{
+    return "Ais2Gps:    Convert an AIS sentence with the relevant MMSI into GGA, GLL, VTG and MSF sentences.\n"
+           "    Parameter:  numeric MMSI\n"
+           "                -GGA: inhibit GGA output\n"
+           "                -GLL: inhibit GLL output\n"
+           "                -VTG: inhibit VTG output\n"
+           "                +MSF: output MSF sentence\n"
+           "                Type: SHIP, AUV etc. for MSF sentence\n"
+           "                Name: vehicle name for MSF sentence\n"
+           "                Sentence Type: MSF0 or MSF1\n"
+           "                mbug: set year in date to 2012 due to Mimosa bug\n\n";
+}
+
 
 BitVector::BitVector(int data, int len)
 {

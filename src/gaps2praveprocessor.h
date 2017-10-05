@@ -19,6 +19,7 @@ public:
     }
     virtual QList<QByteArray> processData(const QByteArray& data);
 
+    static QString doc();
 private:
     NmeaRecord  mPrave;
 

@@ -27,3 +27,9 @@ QList<QByteArray> LineSplitProcessor::processData(const QByteArray& data)
     mBuffer.remove(0, buffer.pos());
     return list;
 }
+
+QString LineSplitProcessor::doc()
+{
+    return  "LineSplitProcessor: Split one multiline UDP datagram into several datagrams each containing only one line.\n"
+            "   Parameter: None\n\n";
+}

@@ -125,7 +125,7 @@
      <x>0</x>
      <y>0</y>
      <width>669</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -142,6 +142,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionConfigFileExample"/>
+    <addaction name="actionDataProcessorInfo"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
@@ -244,6 +245,11 @@
   <action name="actionDeleteForwarder">
    <property name="text">
     <string>&amp;Delete</string>
+   </property>
+  </action>
+  <action name="actionDataProcessorInfo">
+   <property name="text">
+    <string>&amp;DataProcessor Info</string>
    </property>
   </action>
  </widget>

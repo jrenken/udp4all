@@ -52,3 +52,9 @@ QList<QByteArray> Gaps2PraveProcessor::processData(const QByteArray& data)
     }
     return out;
 }
+
+QString Gaps2PraveProcessor::doc()
+{
+    return "Gaps2Prave:   Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences.\n"
+           "    Parameter:  numeric beacon id [0..15]\n\n";
+}
