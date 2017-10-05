@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     int     opt;
     QString configFile;
 
-    while ((opt = getopt(argc, argv, "dvrc:p:")) != -1) {
+    while ((opt = getopt(argc, argv, "dvrhc:p:")) != -1) {
         switch (opt) {
         case 'd':
             daemonize = false;
@@ -102,6 +102,16 @@ int main(int argc, char *argv[])
                       << "Author: Jens Renken renken@marum.de" << std::endl
                       << "(C) Copyright 2011, University of Bremen, Marum" << std::endl;
             exit(0);
+        case 'h':
+            std::cout << "udp4alld\n"
+                      << "Ver: " << __GITTAG__ << "  " << XSTR(GITHASH) << "\n\n"
+                      << "usage: udp4alld [-drhv] [-c <configfile>] [-p <portnumber>]\n\n"
+                      << "    -h:               show this\n"
+                      << "    -v:               show version info\n"
+                      << "    -d:               do not run as daemon.\n"
+                      << "    -r:               report in textformat, default is HTML\n"
+                      << "    -p <portnumber>:  set portnumber for web/raw report\n"
+                      << "    -c <configfile>:  read configuration from configfile. Default is platform dependent settings registry.\n";
        }
     }
     QCoreApplication a(argc, argv);
