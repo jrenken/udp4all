@@ -19,7 +19,6 @@
     #include "forwardmanager.h"
     #include "logger.h"
     #include "reportserver.h"
-    #include "svnversion.h"
 #else
     #include "mainwin.h"
     #include <QApplication>
@@ -98,8 +97,8 @@ int main(int argc, char *argv[])
             break;
         case 'v':
             std::cout << "udp4alld" << std::endl
-                      << "Rev: "SVNVERSION << "  " << __GITTAG__ << std::endl
-                      << "Date: "SVNDATE << std::endl
+                      << "Ver: " << __GITTAG__ << "  " << XSTR(GITHASH) << std::endl
+                      << "Date: " XSTR(GITDATE) << std::endl
                       << "Author: Jens Renken renken@marum.de" << std::endl
                       << "(C) Copyright 2011, University of Bremen, Marum" << std::endl;
             exit(0);

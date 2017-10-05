@@ -9,7 +9,6 @@
  */
 
 #include "mainwin.h"
-#include "svnversion.h"
 #include <QMessageBox>
 #include <QSettings>
 #include <QCloseEvent>
