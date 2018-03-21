@@ -27,6 +27,7 @@ private:
     NmeaRecord  mRMC;
     int         mBeaconId;
     bool        mSendGLL, mSendGGA, mSendRMC;
+    bool        mInvertAltitude;
     QMap<int, QString>  mTalker;
 
     void getParameter(const QString& parList);

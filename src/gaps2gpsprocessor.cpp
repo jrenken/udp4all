@@ -13,7 +13,8 @@ Gaps2GpsProcessor::Gaps2GpsProcessor(const QString& parList)
       mBeaconId(-1),
       mSendGLL(true),
       mSendGGA(true),
-      mSendRMC(true)
+      mSendRMC(true),
+      mInvertAltitude(false)
 {
     mGLL.setRecord(QByteArray("$GPGLL,5301.4970,N,00852.1740,E,114015,A,"));
     mGGA.setRecord(QByteArray("$GPGGA,114035.00,5301.4970,N,00852.1740,E,2,,,-0000.0,M,,,,"));
@@ -43,6 +44,8 @@ void Gaps2GpsProcessor::getParameter(const QString& parList)
         mSendGLL = false;
     if (list.contains("-RMC", Qt::CaseInsensitive))
         mSendRMC = false;
+    if (list.contains("invertAltitude"))
+        mInvertAltitude = true;
 
 }
 
@@ -63,6 +66,12 @@ QList<QByteArray> Gaps2GpsProcessor::processData(const QByteArray& data)
                    mGGA[3] = n[8];
                    mGGA[4] = n[9];
                    mGGA[5] = n[10];
+                   if (!mInvertAltitude) {
+                       mGGA[9] = n[12];
+                   } else {
+                       double alt = n[12].toDouble();
+                       mGGA[9] = QByteArray::number(-alt, 'f', 1);
+                   }
                    if (mBeaconId == -1) {
                        mGGA.setTalker(mTalker.value(bId));
                    }
@@ -98,10 +107,11 @@ QList<QByteArray> Gaps2GpsProcessor::processData(const QByteArray& data)
 
 QString Gaps2GpsProcessor::doc()
 {
-    return "Gaps2Gps: Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences,\n"
-           "          or assign talker id for each defined beacon id\n"
+    return "Gaps2Gps: Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences, or assign talker id for each defined beacon id\n"
            "    Parameter:  numeric beacon id [0..15]\n"
            "             or id:talker,id:talker,...\n"
            "                -GGA: inhibit GGA output\n"
-           "                -GLL: inhibit GLL output\n\n";
+           "                -GLL: inhibit GLL output\n"
+           "                -RMC: inhibit RMC output\n"
+           "                invertAltitude: invert the altitude/depth value\n\n";
 }
