@@ -146,6 +146,21 @@ QByteArray NmeaRecord::header() const {
     return QByteArray();
 }
 
+void NmeaRecord::setHeader(const QString& header)
+{
+    if (!header.startsWith('$')) {
+        setField(0, "$" + header.toLatin1());
+    }
+}
+
+void NmeaRecord::setTalker(const QString& talker)
+{
+    if (field(0).isEmpty()) {
+        setField(0, "$  ");
+    }
+    mFields[0].replace(1, 2, talker.toLatin1());
+}
+
 void NmeaRecord::setSize(int size)
 {
     int newSize = qBound(0, size, MaxFields);

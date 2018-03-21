@@ -55,6 +55,8 @@ public:
 
     bool isValid() const;
     QByteArray header() const;
+    void setHeader(const QString& header);
+    void setTalker(const QString& talker);
 
     bool isEmpty() const {
         return (mFields.size() == 0);

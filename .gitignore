@@ -1,3 +1,11 @@
 *.exe
 Makefile
 src/svnversion.h
+bin
+obj
+moc
+.cproject
+.project
+.settings
+ui_*
+qrc_*

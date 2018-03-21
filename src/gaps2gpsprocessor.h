@@ -9,6 +9,7 @@
 #define GAPS2GPSPROCESSOR_H_
 
 #include "dataprocessor.h"
+#include <QMap>
 
 class Gaps2GpsProcessor : public DataProcessor
 {
@@ -23,8 +24,13 @@ public:
 private:
     NmeaRecord  mGGA;
     NmeaRecord  mGLL;
+    NmeaRecord  mRMC;
     int         mBeaconId;
-    bool        mSendGLL, mSendGGA;
+    bool        mSendGLL, mSendGGA, mSendRMC;
+    QMap<int, QString>  mTalker;
+
+    void getParameter(const QString& parList);
+
 };
 
 
