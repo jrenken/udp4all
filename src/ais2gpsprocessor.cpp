@@ -205,6 +205,9 @@ quint32 BitVector::toUInt(int from, int len, bool* ok) const
     return res;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+
 double BitVector::toDouble(int from, int len, bool* ok) const
 {
     bool ok1;
@@ -235,3 +238,4 @@ double BitVector::toDouble(int from, int len, bool* ok) const
         *ok = false;
     return 0.0;
 }
+#pragma GCC diagnostic pop
