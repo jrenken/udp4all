@@ -11,23 +11,31 @@
 #include <QTimer>
 #include "udpforwarder.h"
 
+#include <QDebug>
 
 UdpForwarder::UdpForwarder(const QString& name, QObject *parent)
     : QObject(parent),
+      mSourceType(UDP),
       mRecCount(0),
       mSendCount(0),
       mMonitor(false),
       mDelay(0),
+      mLastError(QAbstractSocket::UnknownSocketError),
       mProcessor(0)
 {
     setObjectName(name);
     connect(&mSocket, SIGNAL(readyRead()), SLOT(readPendingDatagrams()));
+    connect(&mTcpSocket, SIGNAL(readyRead()), SLOT(readSocketData()));
+    connect(&mTcpSocket, SIGNAL(connected()), SLOT(tcpSocketConnected()));
+    connect(&mTcpSocket, SIGNAL(disconnected()), SLOT(tcpSocketDisconnected()));
+    connect(&mTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
+            SLOT(tcpSocketError( QAbstractSocket::SocketError)));
 }
 
 UdpForwarder::~UdpForwarder()
 {
     if ( bound() )
-        mSocket.disconnectFromHost();
+        releaseSocket();
     if (mProcessor)
         delete mProcessor;
     emit newMessage(tr("Forwarder %1:delete myself").arg(objectName()));
@@ -38,7 +46,10 @@ QString UdpForwarder::source() const
 {
     if (mSource.first.isNull())
         return "none";
-    return QString("%1:%2").arg(mSource.first.toString()).arg(mSource.second);
+    QString s;
+    if (mSourceType == TCP)
+        s = "tcp://";
+    return s + QString("%1:%2").arg(mSource.first.toString()).arg(mSource.second);
 }
 
 QString UdpForwarder::targets() const
@@ -77,15 +88,30 @@ QString UdpForwarder::processorParameter() const
     return mProcessor->parameter();
 }
 
+void UdpForwarder::setSoureType(SourceType type)
+{
+    if (mSourceType != type) {
+        releaseSocket();
+    }
+    mSourceType = type;
+}
 
 void UdpForwarder::setSource(const QString& addr, quint16 port)
 {
+    qDebug() << objectName() << "setSource" << addr << port;
     mSource.first.setAddress(addr);
     mSource.second = port;
-    if (mSocket.state() == QAbstractSocket::BoundState)
-        bindSocket();
-    emit newMessage(tr("Forwarder %1:setSource:%2:%3").arg(objectName())
-            .arg(mSource.first.toString()).arg(mSource.second));
+    if (mSourceType == TCP) {
+        if (mTcpSocket.state() == QAbstractSocket::ConnectedState)
+            bindSocket();
+        emit newMessage(tr("Forwarder %1:setSource:tcp://%2:%3").arg(objectName())
+                .arg(mSource.first.toString()).arg(mSource.second));
+   } else {
+        if (mSocket.state() == QAbstractSocket::BoundState)
+            bindSocket();
+        emit newMessage(tr("Forwarder %1:setSource:%2:%3").arg(objectName())
+                .arg(mSource.first.toString()).arg(mSource.second));
+   }
 }
 
 void UdpForwarder::addTarget(const QString& addr, quint16 port)
@@ -121,30 +147,42 @@ void UdpForwarder::setDelay(int delay)
 
 bool UdpForwarder::bindSocket()
 {
-    mSocket.disconnectFromHost();
-    if (!mSocket.bind(mSource.first, mSource.second)) {
-        QTimer::singleShot(2000, this, SLOT(bindSocket()));
-        return false;
+    if (mSourceType == TCP) {
+        mTcpSocket.disconnectFromHost();
+        mTcpSocket.connectToHost(mSource.first, mSource.second, QIODevice::ReadOnly);
+    } else {
+        mSocket.disconnectFromHost();
+        if (!mSocket.bind(mSource.first, mSource.second)) {
+            QTimer::singleShot(2000, this, SLOT(bindSocket()));
+            return false;
+        }
+        mSocket.flush();
+        emit newMessage(tr("Forwarder %1:bindSocket:%2:%3").arg(objectName())
+                .arg(mSource.first.toString()).arg(mSource.second));
     }
     mSendCount = 0;
     mRecCount = 0;
-    mSocket.flush();
-    emit newMessage(tr("Forwarder %1:bindSocket:%2:%3").arg(objectName())
-            .arg(mSource.first.toString()).arg(mSource.second));
     return true;
 }
 
 void UdpForwarder::releaseSocket()
 {
-    mSocket.disconnectFromHost();
-    emit newMessage(tr("Forwarder %1:releaseSocket:%2:%3").arg(objectName())
-            .arg(mSource.first.toString()).arg(mSource.second));
+    if (mSourceType == TCP) {
+        mTcpSocket.disconnectFromHost();
+    } else {
+        mSocket.disconnectFromHost();
+        emit newMessage(tr("Forwarder %1:releaseSocket:%2:%3").arg(objectName())
+                .arg(mSource.first.toString()).arg(mSource.second));
+    }
 }
 
 bool UdpForwarder::bound() const
 {
     if ( source() == "none" )
         return false;
+    if (mSourceType == TCP)
+        return (mTcpSocket.state() == QAbstractSocket::ConnectedState);
+
     return (mSocket.state() == QAbstractSocket::BoundState);
 }
 
@@ -252,4 +290,35 @@ QString UdpForwarder::report(bool html) const
                            .arg(mRecCount)
                            .arg(mSendCount);
     return rep;
+}
+
+void UdpForwarder::readSocketData()
+{
+    while (mTcpSocket.bytesAvailable()) {
+        QByteArray data;
+        data = mTcpSocket.read(4096);
+        handleData(data);
+    }
+}
+
+void UdpForwarder::tcpSocketConnected()
+{
+    mTcpSocket.flush();
+    emit newMessage(tr("Forwarder %1:connectSocket:tcp://%2:%3").arg(objectName())
+            .arg(mSource.first.toString()).arg(mSource.second));
+}
+
+void UdpForwarder::tcpSocketDisconnected()
+{
+    emit newMessage(tr("Forwarder %1:releaseSocket:tcp://%2:%3").arg(objectName())
+            .arg(mSource.first.toString()).arg(mSource.second));
+}
+
+void UdpForwarder::tcpSocketError(QAbstractSocket::SocketError error)
+{
+    if (error != mLastError) {
+        mLastError = error;
+        emit newMessage(tr("Forwarder %1:tcpSocketError: %2: %3").arg(objectName()).arg(error).arg(mTcpSocket.errorString()));
+    }
+    QTimer::singleShot(2000, this, SLOT(bindSocket()));
 }

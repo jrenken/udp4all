@@ -91,6 +91,10 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
 
     s = settings.value("Source").toString();
     if (!s.isEmpty() || (s != "none") ) {
+        if (s.startsWith("tcp://")) {
+            s.remove(0, 6);
+            forwarder->setSoureType(UdpForwarder::TCP);
+        }
         forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
 

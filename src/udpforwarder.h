@@ -19,6 +19,7 @@
 #include <QHash>
 #include <QHostAddress>
 #include <QUdpSocket>
+#include <QTcpSocket>
 #include <QStringList>
 #include "dataprocessor.h"
 
@@ -28,8 +29,18 @@ class UdpForwarder: public QObject
     Q_OBJECT
 
 public:
+    enum SourceType {
+        UDP,
+        TCP
+    };
+
     UdpForwarder(const QString& name = "UdpForwarder", QObject *parent = 0);
     virtual ~UdpForwarder();
+
+    void setSoureType(SourceType type);
+    SourceType sourceType() const {
+        return mSourceType;
+    }
 
     void setDataProcessor(DataProcessor* proc);
     DataProcessor* dataProcessor() const {
@@ -90,13 +101,21 @@ signals:
 
 private slots:
     void readPendingDatagrams();
+    void readSocketData();
+    void tcpSocketConnected ();
+    void tcpSocketDisconnected ();
+    void tcpSocketError( QAbstractSocket::SocketError socketError );
 
 private:
     QUdpSocket          mSocket;
+    QTcpSocket          mTcpSocket;
+    SourceType          mSourceType;
     int                 mRecCount;
     int                 mSendCount;
     bool                mMonitor;
     int                 mDelay;
+
+    QAbstractSocket::SocketError            mLastError;
 
     QPair<QHostAddress, quint16>            mSource;
     QList< QPair<QHostAddress, quint16> >   mTargets;
