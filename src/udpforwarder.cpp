@@ -11,8 +11,6 @@
 #include <QTimer>
 #include "udpforwarder.h"
 
-#include <QDebug>
-
 UdpForwarder::UdpForwarder(const QString& name, QObject *parent)
     : QObject(parent),
       mSourceType(UDP),
@@ -98,7 +96,6 @@ void UdpForwarder::setSoureType(SourceType type)
 
 void UdpForwarder::setSource(const QString& addr, quint16 port)
 {
-    qDebug() << objectName() << "setSource" << addr << port;
     mSource.first.setAddress(addr);
     mSource.second = port;
     if (mSourceType == TCP) {

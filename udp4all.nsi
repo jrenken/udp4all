@@ -11,8 +11,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-r19"
-  OutFile "udp4all-r19.exe"
+  Name "udp4all-r21"
+  OutFile "udp4all-r21.exe"
   Icon "src\images\udp4all.ico"
   XPStyle on
   
@@ -53,7 +53,7 @@
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.19.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.21.0"
 
 ;--------------------------------
 
