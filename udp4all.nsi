@@ -46,7 +46,7 @@
 ;--------------------------------
 ;Version Information
 
-  VIProductVersion "0.1.5.0"
+  VIProductVersion "0.21.0.0"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "udp4all"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Quick and Dirty"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Marum"
@@ -64,18 +64,45 @@
 Section "udp4all" SecDummy
 
   SetOutPath "$INSTDIR"
-  
+
+  !if "$%MXE%" != ""
+    !echo $%MXE% 
   ;ADD YOUR OWN FILES HERE...
-  File bin\udp4all.exe
-  File C:\usr\lib\Qt\4.8.6\bin\QtGui4.dll 
-  File C:\usr\lib\Qt\4.8.6\bin\QtCore4.dll
-  File C:\usr\lib\Qt\4.8.6\bin\QtNetwork4.dll
-  File C:\usr\lib\Qt\4.8.6\bin\libwinpthread-1.dll
-  File C:\usr\lib\MinGW\bin\mingwm10.dll
-  File C:\usr\lib\MinGW\bin\libstdc++-6.dll
-  File C:\usr\lib\MinGW\bin\libgcc_s_dw2-1.dll 
-  File u4a-example.conf
+    File winbuild/bin/udp4all.exe
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libgcc_s_seh-1.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libstdc++-6.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libwinpthread-1.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpcre2-16-0.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpcre-1.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/zlib1.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libbz2.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libintl-8.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libcrypto-1_1-x64.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libssl-1_1-x64.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libharfbuzz-0.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpng16-16.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libfreetype-6.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libglib-2.0-0.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpng16-16.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libiconv-2.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Core.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Gui.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Network.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Widgets.dll
   
+    SetOutPath "$INSTDIR\platforms"
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/plugins/platforms/qwindows.dll
+
+  !else
+    File C:\usr\lib\Qt\4.8.6\bin\QtGui4.dll 
+    File C:\usr\lib\Qt\4.8.6\bin\QtCore4.dll
+    File C:\usr\lib\Qt\4.8.6\bin\QtNetwork4.dll
+    File C:\usr\lib\Qt\4.8.6\bin\libwinpthread-1.dll
+    File C:\usr\lib\MinGW\bin\mingwm10.dll
+    File C:\usr\lib\MinGW\bin\libstdc++-6.dll
+    File C:\usr\lib\MinGW\bin\libgcc_s_dw2-1.dll 
+    File u4a-example.conf
+  !endif
 
   ;Store installation folder
   WriteRegStr HKCU "Software\Marum\udp4all" "" $INSTDIR
@@ -120,7 +147,10 @@ Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\udp4all.exe"
   Delete "$INSTDIR\*.dll"
-
+  !if "$%MXE%" != ""
+    Delete "$INSTDIR\platforms\*.dll"
+    RMDir "$INSTDIR\platforms"
+  !endif
   RMDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\Marum\udp4all"
