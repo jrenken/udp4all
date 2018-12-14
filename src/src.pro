@@ -35,6 +35,7 @@ HEADERS += ais2gpsprocessor.h \
     gaps2gpsprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
+    ranger2gapsprocessor.h \
     nmearecord.h \
     forwardmanager.h \
     dataprocessor.h \
@@ -44,6 +45,7 @@ SOURCES += ais2gpsprocessor.cpp \
     gaps2gpsprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
+    ranger2gapsprocessor.cpp \
     nmearecord.cpp \
     forwardmanager.cpp \
     dataprocessor.cpp \

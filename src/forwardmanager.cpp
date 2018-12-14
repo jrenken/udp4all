@@ -16,6 +16,7 @@
 #include "gaps2msfprocessor.h"
 #include "gaps2praveprocessor.h"
 #include "ais2gpsprocessor.h"
+#include "ranger2gapsprocessor.h"
 
 
 ForwardManager::ForwardManager(QObject *parent)
@@ -177,6 +178,8 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QS
         return new Gaps2PraveProcessor(par);
     } else if (type == "Ais2Gps") {
         return new Ais2GpsProcessor(par);
+    } else if (type == "Ranger2Gaps") {
+        return new Ranger2GapsProcessor(par);
     }
     return 0;
 }
@@ -185,7 +188,8 @@ QString ForwardManager::doc()
 {
     return "Available DataProcessors\n\n" + LineSplitProcessor::doc()
             + Gaps2MsfProcessor::doc() +  Gaps2GpsProcessor::doc()
-            + Gaps2PraveProcessor::doc() + Ais2GpsProcessor::doc();
+            + Gaps2PraveProcessor::doc() + Ais2GpsProcessor::doc()
+            + Ranger2GapsProcessor::doc();
 }
 
 void ForwardManager::setMonitor(bool mon)

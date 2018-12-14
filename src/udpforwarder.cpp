@@ -58,6 +58,8 @@ QString UdpForwarder::targets() const
     QPair<QHostAddress, quint16> target;
 
     foreach (target, mTargets) {
+        if (target.first.isNull())
+            return "none";
         s.append(QString("%1:%2 ").arg(target.first.toString()).arg(target.second));
     }
     return s.simplified();
