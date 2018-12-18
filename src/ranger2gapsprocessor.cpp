@@ -6,6 +6,8 @@
  */
 
 #include <QDate>
+#include <QRegExp>
+#include <QStringList>
 #include "ranger2gapsprocessor.h"
 
 /*
