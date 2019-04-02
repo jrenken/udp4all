@@ -18,7 +18,6 @@
 #include "ais2gpsprocessor.h"
 #include "ranger2gapsprocessor.h"
 
-
 ForwardManager::ForwardManager(QObject *parent)
     : QObject(parent)
 {
@@ -99,7 +98,10 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
         forwarder->setSource(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
 
-    QStringList sl = settings.value("Inputs").toString().split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    QStringList sl  = settings.value("Inputs").toStringList();
+    if (sl.length() == 1 && sl.at(0).contains(" ")) {
+        sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    }
     foreach (QString s, sl) {
         forwarder->addInput(s);
     }
@@ -110,7 +112,10 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
 
     forwarder->setDelay(settings.value("Delay", 0). toInt());
 
-    sl = settings.value("Targets").toString().split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    sl = settings.value("Targets").toStringList();
+    if (sl.length() == 1 && sl.at(0).contains(" ")) {
+        sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+    }
     foreach (QString s, sl) {
         forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
     }
@@ -136,12 +141,8 @@ void ForwardManager::connectForwarder(const QHash<QString, QVariant>& settings)
     QString s = settings.value("Name").toString();
     UdpForwarder* forwarder = mForwarders.value(s);
     if (forwarder) {
-        QVariantList vl = settings.value("Inputs").toList();
-        if (vl.isEmpty())
-            vl.append(settings.value("Inputs"));
-        foreach (QVariant v, vl) {
-            s = v.toString();
-            UdpForwarder* sforwarder = mForwarders.value(s);
+        foreach (QString input, forwarder->inputList()) {
+            UdpForwarder* sforwarder = mForwarders.value(input);
             if (sforwarder && (sforwarder != forwarder)) {
                 connect(sforwarder, SIGNAL(newData(const QByteArray&)),
                         forwarder, SLOT(handleData(const QByteArray&)));

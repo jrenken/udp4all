@@ -56,7 +56,9 @@ public:
     }
     QString source() const;
     QString targets() const;
+    QStringList targetList() const;
     QString inputs() const;
+    QStringList inputList() const;
     QString processor() const;
     QString processorParameter() const;
 

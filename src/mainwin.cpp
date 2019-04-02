@@ -15,7 +15,6 @@
 #include <QFileDialog>
 #include <QItemSelectionModel>
 #include <QFont>
-#include <QDebug>
 
 #include "nmearecord.h"
 #include "forwarderdlg.h"
@@ -35,6 +34,7 @@ MainWin::MainWin(QWidget *parent)
 {
     ui.setupUi(this);
     ui.toolButtonMonitor->setDefaultAction(ui.actionMonitor);
+    ui.tableView->horizontalHeader()->setMaximumSectionSize(400);
     connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     ui.tabWidget->removeTab(2);
     QSettings   settings;
@@ -75,6 +75,7 @@ void MainWin::setupForwarders(QSettings& settings)
     mManager->loadConfiguration(settings);
     mManager->bindAll();
     ui.tableView->setModel(mManager->model());
+    ui.tableView->resizeColumnsToContents();
 
     QItemSelectionModel *selectionModel = new QItemSelectionModel(mManager->model());
     ui.tableView->setSelectionModel(selectionModel);

@@ -52,17 +52,22 @@ QString UdpForwarder::source() const
 
 QString UdpForwarder::targets() const
 {
+    return targetList().join(", ").simplified();
+}
+
+QStringList UdpForwarder::targetList() const
+{
     if (mTargets.isEmpty())
-        return "none";
-    QString s;
+        return QStringList("none");
     QPair<QHostAddress, quint16> target;
+    QStringList s;
 
     foreach (target, mTargets) {
         if (target.first.isNull())
-            return "none";
-        s.append(QString("%1:%2 ").arg(target.first.toString()).arg(target.second));
+            return QStringList("none");
+        s << QString("%1:%2").arg(target.first.toString()).arg(target.second);
     }
-    return s.simplified();
+    return s;
 }
 
 QString UdpForwarder::inputs() const
@@ -70,7 +75,12 @@ QString UdpForwarder::inputs() const
     if (mInputs.isEmpty())
         return "none";
 
-    return mInputs.join(" ").simplified();
+    return mInputs.join(", ").simplified();
+}
+
+QStringList UdpForwarder::inputList() const
+{
+    return mInputs;
 }
 
 QString UdpForwarder::processor() const
@@ -251,13 +261,13 @@ QHash<QString,QVariant> UdpForwarder::settings() const
 {
     QHash<QString, QVariant> settings;
     settings.insert("Name", objectName());
-    settings.insert("Inputs", inputs());
+    settings.insert("Inputs", inputList());
     settings.insert("Source", source());
     settings.insert("Delay", mDelay);
     settings.insert("Processor", processor());
     if (mProcessor)
         settings.insert("Processor.Parameter", mProcessor->parameter());
-    settings.insert("Targets", targets());
+    settings.insert("Targets", targetList());
     return settings;
 }
 
