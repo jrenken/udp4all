@@ -6,6 +6,7 @@
  */
 
 #include <QDate>
+#include <QRegExp>
 #include <QStringList>
 #include "ranger2gapsprocessor.h"
 
@@ -62,8 +63,8 @@ QList<QByteArray> Ranger2GapsProcessor::processData(const QByteArray& data)
             mPTSAG[1] = QString("#%1").arg(++mFrameId).toLatin1();
             mPTSAG[2] = n[1];
             QDate date = QDate::currentDate();
-            mPTSAG[3] = QString("%1").arg(date.day(), 2).toLatin1();
-            mPTSAG[4] = QString("%1").arg(date.month(), 2).toLatin1();
+            mPTSAG[3] = QString("%1").arg(date.day(), 2, 10, QChar('0')).toLatin1();
+            mPTSAG[4] = QString("%1").arg(date.month(), 2, 10, QChar('0')).toLatin1();
             mPTSAG.setField(5, date.year());
             mPTSAG.setField(6, bid);
             mPTSAG[12] = n[6];
