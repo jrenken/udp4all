@@ -94,18 +94,40 @@ QByteArray& NmeaRecord::field(int i)
     return mFields[idx];
 }
 
+QByteArray NmeaRecord::field(int i) const
+{
+    int idx = qBound(0, i, MaxFields - 1);
+    if (idx < mFields.size()) {
+        return mFields[idx];
+    }
+    return "";
+}
+
 QByteArray& NmeaRecord::operator[](int i)
 {
     return field(i);
 }
 
-//double NmeaRecord::operator[](int i)
-//{
-//    if (i < mFields.size()) {
-//        return mFields.at(i).toDouble();
-//    }
-//    return 0;
-//}
+int NmeaRecord::toInt(int i) const
+{
+    bool ok;
+
+    int res = field(i).toDouble(&ok);
+    if (ok)
+        return int(res);
+    return 0;
+}
+
+double NmeaRecord::toDouble(int i) const
+{
+    bool ok;
+
+    double res = field(i).toDouble(&ok);
+
+    if (ok)
+        return res;
+    return NAN;
+}
 
 void NmeaRecord::setField(int i, int val)
 {

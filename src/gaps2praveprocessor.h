@@ -9,6 +9,7 @@
 #define GAPS2PRAVEPROCESSOR_H_
 
 #include "dataprocessor.h"
+#include <QMap>
 
 class Gaps2PraveProcessor : public DataProcessor
 {
@@ -22,6 +23,10 @@ public:
     static QString doc();
 private:
     NmeaRecord  mPrave;
+
+    QMap<QString, int>  mBeacons;
+
+    void getParameter(const QString& parList);
 
 };
 

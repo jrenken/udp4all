@@ -7,15 +7,14 @@
 
 #include "gaps2praveprocessor.h"
 #include <QStringList>
-#include <QDebug>
 
 Gaps2PraveProcessor::Gaps2PraveProcessor(const QString& parList)
     : DataProcessor(parList)
 {
-    mPrave.setRecord(QByteArray("$PRAVE,0000,0000,0000.0000,00000.0000,000000,1,8,0,24,11.6,0,0,0,0,,"));
+    mPrave.setRecord(QByteArray("$PRAVE,0000,0000,0000.0000,00000.0000,000000,1,8,0,7,11.9,0,-61,0,0,,"));
     QStringList list = parList.split(' ');
-    if (list.size() > 0 && !list.at(0).isEmpty())
-        mPrave[2] = QString("%1").arg(list.at(0).toInt(), 4, 16, QChar('0')).toLatin1();
+    getParameter(parList);
+
 }
 
 
@@ -25,6 +24,8 @@ QList<QByteArray> Gaps2PraveProcessor::processData(const QByteArray& data)
     QList<QByteArray> out;
 
     foreach (QByteArray ba, list) {
+        if (ba.isEmpty())
+            continue;
         NmeaRecord n(ba);
         if (n.isEmpty()) continue;
         if (n.header() == "$PTSAG") {
@@ -47,14 +48,52 @@ QList<QByteArray> Gaps2PraveProcessor::processData(const QByteArray& data)
         } else if (n.header() == "$HEHDT") {
             mPrave[14] = n[1];
             out.append(mPrave.sentence(true));
+        } else if (n.header() == "$PMTMGPO") {
+            int bid = mBeacons.value(n[1], -1);
+            if (bid == -1)
+                continue;
+            mPrave[1] = QString("%1").arg(bid, 4, 10, QChar('0')).toLatin1();
+            mPrave.toDDM(n.toDouble(4), 3, NmeaRecord::Lat, 0, 4);
+            mPrave.toDDM(n.toDouble(5), 4, NmeaRecord::Lon, 0, 4);
+            mPrave[5] = QString("%1").arg(n.toInt(3), 6, 10, QChar('0')).toLatin1();
+            mPrave.setField(8, (int) (n[7].toDouble() * -1));
+            mPrave.setField(14, int(n[9].toDouble()));
+            out.append(mPrave.sentence(true));
         }
 
     }
     return out;
 }
 
+
+void Gaps2PraveProcessor::getParameter(const QString& parList)
+{
+    QStringList list = parList.split(QRegExp(",\\s+"), QString::SkipEmptyParts);
+    if (list.size() > 0) {
+        if (!list.at(0).contains(QRegExp("[<>:]"))) {
+            bool ok;
+            int talker = list.at(0).toInt(&ok);
+            if (ok) {
+                mPrave[2] = QString("%1").arg(talker, 4, 10, QChar('0')).toLatin1();
+            }
+        }
+        foreach (QString s, list) {
+            QStringList l = s.split(QRegExp("[<>:]"), QString::SkipEmptyParts);
+            if (l.size() != 2)
+                continue;
+            bool ok;
+            int id = l.at(1).toInt(&ok);
+            if (ok) {
+                mBeacons[l.at(0)] = id;
+            }
+        }
+    }
+}
+
 QString Gaps2PraveProcessor::doc()
 {
-    return "Gaps2Prave:   Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences.\n"
-           "    Parameter:  numeric beacon id [0..15]\n\n";
+    return "Gaps2Prave:   Convert a $PTSAG or a $PMTMGPO sentence with the relevant beacon id or sender key into $PRAVE senten.\n"
+           "    Parameter:  To ID [0 - 9999] and id mapping in the form <key:id>\n"
+           "                e.g. \"10, <SHP:0>, <ROV:1>\"\n"
+           "                The parameters need to be quoted as a comma separated list\n\n";
 }

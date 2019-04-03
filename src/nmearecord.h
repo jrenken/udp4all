@@ -32,8 +32,13 @@ public:
     int setRecord(const QByteArray& rec);
     int setRecord(const QString& rec);
 
+    QByteArray field(int i) const;
+
     QByteArray& operator[](int i);
 //    double operator[](int i);
+
+    int toInt(int i) const;
+    double toDouble(int i) const;
 
     void setField(int i, int val);
     void setField(int i, double val, int prec = -1);

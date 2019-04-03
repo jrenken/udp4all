@@ -35,8 +35,6 @@ Ranger2GapsProcessor::Ranger2GapsProcessor(const QString& parList)
 {
     mPTSAG.setRecord(QByteArray("$PTSAG,#2374110,055648.831,05,04,2018,0,2718.19917,N,01747.61373,W,F,0005.8,1,9999.0"));
     mPTSAH.setRecord(QByteArray("$PTSAH,0,359.671,0.000"));
-    mBeacons["2401"] = 1;
-    mBeacons["Ship 1"] = 0;
     getParameter(parList);
 }
 
@@ -83,7 +81,9 @@ QString Ranger2GapsProcessor::doc()
 {
     return "Ranger2Gaps: Convert $PSONLLD and $PSONALL sentences into Posidonia/Gaps $PTSAG, $PTSAH and $HEHDT sentences\n"
            "    Parameter:  beacon id assignment in the form <ranger id:beacon id>,\n"
-           "                e.g \"<ship 1:0>, <2401:1>\"\n\n";
+           "                e.g \"<ship 1:0>, <2401:1>\"\n"
+           "                The parameters need to be quoted as a comma separated list\n\n";
+
 }
 
 void Ranger2GapsProcessor::getParameter(const QString& parList)
