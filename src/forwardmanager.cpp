@@ -100,7 +100,8 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
 
     QStringList sl  = settings.value("Inputs").toStringList();
     if (sl.length() == 1 && sl.at(0).contains(" ")) {
-        sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
+        if (!mForwarders.contains(sl.at(0)))
+            sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
     }
     foreach (QString s, sl) {
         forwarder->addInput(s);
