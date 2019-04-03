@@ -34,7 +34,9 @@ MainWin::MainWin(QWidget *parent)
 {
     ui.setupUi(this);
     ui.toolButtonMonitor->setDefaultAction(ui.actionMonitor);
+#if QT_VERSION > 0x050100
     ui.tableView->horizontalHeader()->setMaximumSectionSize(400);
+#endif
     connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     ui.tabWidget->removeTab(2);
     QSettings   settings;
