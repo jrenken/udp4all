@@ -68,7 +68,7 @@ QList<QByteArray> Gaps2PraveProcessor::processData(const QByteArray& data)
 
 void Gaps2PraveProcessor::getParameter(const QString& parList)
 {
-    QStringList list = parList.split(QRegExp(",\\s+"), QString::SkipEmptyParts);
+    QStringList list = parList.split(QRegExp(",\\s*"), QString::SkipEmptyParts);
     if (list.size() > 0) {
         if (!list.at(0).contains(QRegExp("[<>:]"))) {
             bool ok;

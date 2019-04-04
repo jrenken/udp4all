@@ -54,13 +54,14 @@ SOURCES += ais2gpsprocessor.cpp \
 OBJECTS_DIR = ../obj
 DESTDIR = ../bin
 MOC_DIR = moc
+GITHASH = $$system(git log -1 --pretty=format:"%h")
+GITTAG = $$system(git describe --abbrev=0 --tags)
+GITDATE = $$system(git log -1 --date=iso --pretty=format:"%cd")
+DEFINES += GITHASH=$$GITHASH \
+    GITTAG=$$GITTAG \
+    GITDATE="\'$$GITDATE\'"
 unix { 
     target.path = /usr/local/bin
     INSTALLS += target
-    GITHASH = $$system(git log -1 --pretty=format:"%h")
-    GITTAG = $$system(git describe --abbrev=0 --tags)
-    GITDATE = $$system(git log -1 --date=iso --pretty=format:"%cd")
-    DEFINES += GITHASH=$$GITHASH \
-        GITTAG=$$GITTAG \
-        GITDATE="\'$$GITDATE\'"
 }
+    

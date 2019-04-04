@@ -88,7 +88,7 @@ QString Ranger2GapsProcessor::doc()
 
 void Ranger2GapsProcessor::getParameter(const QString& parList)
 {
-    QStringList list = parList.split(QRegExp(",\\s+"), QString::SkipEmptyParts);
+    QStringList list = parList.split(QRegExp(",\\s*"), QString::SkipEmptyParts);
     if (list.size() > 0) {
         foreach (QString s, list) {
             QStringList l = s.split(QRegExp("[<>:]"), QString::SkipEmptyParts);
