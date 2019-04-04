@@ -101,7 +101,7 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
     QStringList sl  = settings.value("Inputs").toStringList();
     if (sl.length() == 1 && sl.at(0).contains(" ")) {
         if (!mForwarders.contains(sl.at(0)))
-            sl = sl.at(0).split(QRegExp("\\,?\\s*"), QString::SkipEmptyParts);
+            sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
     }
     foreach (QString s, sl) {
         forwarder->addInput(s);
@@ -115,7 +115,7 @@ UdpForwarder* ForwardManager::createForwarder(const QHash<QString, QVariant>& se
 
     sl = settings.value("Targets").toStringList();
     if (sl.length() == 1 && sl.at(0).contains(" ")) {
-        sl = sl.at(0).split(QRegExp("\\,?\\s*"), QString::SkipEmptyParts);
+        sl = sl.at(0).split(QRegExp("\\,?\\s+"), QString::SkipEmptyParts);
     }
     foreach (QString s, sl) {
         forwarder->addTarget(s.section(':', 0, 0), s.section(':', -1).toInt());
