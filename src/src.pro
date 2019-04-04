@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = udp4all
 #CONFIG += console
-#CONFIG += DEBUG
+CONFIG += debug_and_release
 
 QT += core \
     widgets \
