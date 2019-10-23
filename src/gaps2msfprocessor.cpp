@@ -69,10 +69,10 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
 
 QString Gaps2MsfProcessor::doc()
 {
-    return "Gaps2Msf:   Convert $PTSAG and $HEHDT/$PSTAH sentence into an $MSF sentence.\n"
+    return "Gaps2Msf:   Convert $PTSAG and $HEHDT/$PSTAH sentence to $MSF sentence.\n"
            "    Parameter:  Type: SHIP, AUV etc.\n"
            "                Name: vehicle name\n"
            "                Sentence Type: MSF0 or MSF1\n"
-           "                mbug: set year in date to 2012 due to Mimosa bug\n\n" ;
+           "                mbug: set year in date to 2012 required by Mimosa bug.\n\n" ;
 }
 

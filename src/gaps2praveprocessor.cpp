@@ -92,8 +92,8 @@ void Gaps2PraveProcessor::getParameter(const QString& parList)
 
 QString Gaps2PraveProcessor::doc()
 {
-    return "Gaps2Prave:   Convert a $PTSAG or a $PMTMGPO sentence with the relevant beacon id or sender key into $PRAVE senten.\n"
+    return "Gaps2Prave:   Convert a $PTSAG or a $PMTMGPO sentence with the relevant beacon id or sender key to $PRAVE sentences.\n"
            "    Parameter:  To ID [0 - 9999] and id mapping in the form <key:id>\n"
            "                e.g. \"10, <SHP:0>, <ROV:1>\"\n"
-           "                The parameters need to be quoted as a comma separated list\n\n";
+           "                The parameters need to be quoted as a comma separated list.\n\n";
 }

@@ -79,10 +79,10 @@ QList<QByteArray> Ranger2GapsProcessor::processData(const QByteArray& data)
 
 QString Ranger2GapsProcessor::doc()
 {
-    return "Ranger2Gaps: Convert $PSONLLD and $PSONALL sentences into Posidonia/Gaps $PTSAG, $PTSAH and $HEHDT sentences\n"
+    return "Ranger2Gaps: Convert $PSONLLD and $PSONALL sentences to Posidonia/Gaps $PTSAG, $PTSAH and $HEHDT sentences.\n"
            "    Parameter:  beacon id assignment in the form <ranger id:beacon id>,\n"
-           "                e.g \"<ship 1:0>, <2401:1>\"\n"
-           "                The parameters need to be quoted as a comma separated list\n\n";
+           "                e.g \"<ship 1:0>, <2401:1>\".\n"
+           "                The parameters need to be quoted as a comma separated list.\n\n";
 
 }
 

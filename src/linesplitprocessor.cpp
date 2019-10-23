@@ -69,9 +69,9 @@ QList<QByteArray> LineSplitProcessor::processData(const QByteArray& data)
 QString LineSplitProcessor::doc()
 {
     return  "LineSplitProcessor: Split one multiline UDP datagram into several datagrams each containing only one line\n"
-            "                    and optional filter the sentences by header. The filter could be selective or preventing.\n"
-            "   Parameter: -[pattern]: inhibit sending sentences whit pattern in their header\n"
-            "              +[pattern]: inhibit all sentences except those conatining pattern in their header\n"
-            "          eg: +HEHDT inhibits all sentences except those starting with $HEHDT\n"
-            "              -GGA inhibits sentences containg GGA in their header, eg. $GPGGA or $GNGGA\n\n";
+            "                    and optional filter the sentences by header. The filter could be selective or inhibiting.\n"
+            "    Parameter:  -pattern: inhibit sending sentences whith pattern in their header.\n"
+            "                +pattern: inhibit all sentences except those containing pattern in their header.\n"
+            "                eg: +HEHDT inhibits all sentences except those starting with $HEHDT.\n"
+            "                    -GGA inhibits sentences containing GGA in their header, eg. $GPGGA or $GNGGA.\n\n";
 }

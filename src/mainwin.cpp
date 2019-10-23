@@ -10,12 +10,14 @@
 
 #include "mainwin.h"
 #include <QMessageBox>
+#include <QTextEdit>
+#include <QInputDialog>
 #include <QSettings>
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QItemSelectionModel>
 #include <QFont>
-
+#include <QPushButton>
 #include "nmearecord.h"
 #include "forwarderdlg.h"
 
@@ -29,14 +31,47 @@
 #endif
 
 
+class HelpDialog : public QDialog
+{
+public:
+    HelpDialog(const QString& title, const QString& helpText, QWidget *parent = 0)
+        : QDialog(parent)
+    {
+        QTextEdit* textEdit = new QTextEdit(this);
+        textEdit->setReadOnly(true);
+        textEdit->setLineWrapMode(QTextEdit::NoWrap);
+        textEdit->setText(helpText);
+        QFont font("Courier10");
+        font.setFixedPitch(true);
+        textEdit->setFont(font);
+
+        QDialogButtonBox* buttonBox = new QDialogButtonBox(this);
+        buttonBox->setOrientation(Qt::Horizontal);
+        buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+
+
+        QVBoxLayout *layout = new QVBoxLayout;
+        layout->addWidget(textEdit);
+        layout->addWidget(buttonBox);
+        setLayout(layout);
+
+        setWindowTitle(title);
+        if (parent) {
+            resize(parent->size() * 0.8);
+        } else {
+            resize(800, 600);
+        }
+        connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    }
+
+};
+
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
     ui.toolButtonMonitor->setDefaultAction(ui.actionMonitor);
-#if QT_VERSION > 0x050100
-    ui.tableView->horizontalHeader()->setMaximumSectionSize(400);
-#endif
     connect(ui.actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     ui.tabWidget->removeTab(2);
     QSettings   settings;
@@ -139,33 +174,20 @@ void MainWin::on_actionSave_triggered()
 
 void MainWin::on_actionConfigFileExample_triggered()
 {
-    QMessageBox msgBox;
-    msgBox.setText("Config File Example");
-    msgBox.setStandardButtons(QMessageBox::Close);
-    msgBox.setDefaultButton(QMessageBox::Close);
     QFile f(":/config/udp4all.conf");
     if (f.open(QIODevice::ReadOnly)) {
         QString s = f.readAll();
         s.prepend("<FONT COLOR=\"#0020F0\">");
         s.replace("\n", "<br>");
-        msgBox.setInformativeText(s);
-        msgBox.showExtension(true);
-        msgBox.exec();
+        HelpDialog dlg(tr("ConfigFile Example"), s, this);
+        dlg.exec();
     }
 }
 
 void MainWin::on_actionDataProcessorInfo_triggered()
 {
-    QMessageBox msgBox;
-    QFont font("Courier10");
-    font.setFixedPitch(true);
-    msgBox.setFont(font);
-    msgBox.setText("DataProcessor Info");
-    msgBox.setStandardButtons(QMessageBox::Close);
-    msgBox.setDefaultButton(QMessageBox::Close);
-    msgBox.setInformativeText(ForwardManager::doc());
-    msgBox.showExtension(true);
-    msgBox.exec();
+    HelpDialog dlg(tr("DataProcessor Info"), ForwardManager::doc(), this);
+    dlg.exec();
 }
 
 void MainWin::on_actionAbout_triggered()

@@ -107,11 +107,11 @@ QList<QByteArray> Gaps2GpsProcessor::processData(const QByteArray& data)
 
 QString Gaps2GpsProcessor::doc()
 {
-    return "Gaps2Gps: Convert a $PTSAG sentence with the relevant beacon id into GGA and GLL sentences, or assign talker id for each defined beacon id\n"
+    return "Gaps2Gps: Convert a $PTSAG sentence with the relevant beacon id to GGA and GLL sentences, or assign talker id for each defined beacon id.\n"
            "    Parameter:  numeric beacon id [0..15]\n"
            "             or id:talker,id:talker,...\n"
-           "                -GGA: inhibit GGA output\n"
-           "                -GLL: inhibit GLL output\n"
-           "                -RMC: inhibit RMC output\n"
-           "                invertAltitude: invert the altitude/depth value\n\n";
+           "                -GGA: inhibit GGA output.\n"
+           "                -GLL: inhibit GLL output.\n"
+           "                -RMC: inhibit RMC output.\n"
+           "                invertAltitude: invert the altitude/depth value.\n\n";
 }

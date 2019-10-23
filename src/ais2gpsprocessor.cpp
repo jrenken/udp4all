@@ -160,7 +160,7 @@ QString Ais2GpsProcessor::doc()
            "                Type: SHIP, AUV etc. for MSF sentence\n"
            "                Name: vehicle name for MSF sentence\n"
            "                Sentence Type: MSF0 or MSF1\n"
-           "                mbug: set year in date to 2012 due to Mimosa bug\n\n";
+           "                mbug: set year in date to 2012 required by Mimosa bug\n\n";
 }
 
 
