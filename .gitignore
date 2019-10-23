@@ -9,3 +9,5 @@ moc
 .settings
 ui_*
 qrc_*
+*build/
+.svn

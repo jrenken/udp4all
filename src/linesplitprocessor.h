@@ -22,6 +22,13 @@ public:
     static QString doc();
 private:
     QByteArray  mBuffer;
+    QList<QByteArray>   mInhibitPatterns;
+    QList<QByteArray>   mSelectivePatterns;
+    bool        mNoFiltering;
+    bool        mInhibitAll;
+
+    void getParameter(const QString& parList);
+
 };
 
 
