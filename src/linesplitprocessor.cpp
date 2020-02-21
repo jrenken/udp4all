@@ -6,6 +6,7 @@
  */
 
 #include <QBuffer>
+#include <QStringList>
 #include "linesplitprocessor.h"
 
 LineSplitProcessor::LineSplitProcessor(const QString& parList)
