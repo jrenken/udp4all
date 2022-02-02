@@ -34,6 +34,7 @@ HEADERS += ais2gpsprocessor.h \
     gaps2praveprocessor.h \
     gaps2gpsprocessor.h \
     minipos2gpsprocessor.h \
+    minipos2depthprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
     ranger2gapsprocessor.h \
@@ -45,6 +46,7 @@ SOURCES += ais2gpsprocessor.cpp \
     gaps2praveprocessor.cpp \
     gaps2gpsprocessor.cpp \
     minipos2gpsprocessor.cpp \
+    minipos2depthprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
     ranger2gapsprocessor.cpp \

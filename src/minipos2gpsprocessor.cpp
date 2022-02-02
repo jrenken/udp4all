@@ -88,7 +88,8 @@ QList<QByteArray> MiniPos2GpsProcessor::processData(const QByteArray& data)
                 mVTG.setField(9, n.toDouble(9) * 3.6, 2);
                 out.append(mVTG.sentence(true));
             }
-        }
+        } else
+            continue;
     }
     return out;
 }

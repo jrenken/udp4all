@@ -18,6 +18,7 @@
 #include "ais2gpsprocessor.h"
 #include "ranger2gapsprocessor.h"
 #include "minipos2gpsprocessor.h"
+#include "minipos2depthprocessor.h"
 
 ForwardManager::ForwardManager(QObject *parent)
     : QObject(parent)
@@ -185,6 +186,8 @@ DataProcessor* ForwardManager::createDataProcessor(const QString& type, const QS
         return new Ranger2GapsProcessor(par);
     } else if (type == "MiniPos2Gps") {
         return new MiniPos2GpsProcessor(par);
+    } else if (type == "MiniPos2Depth") {
+        return new MiniPos2DepthProcessor(par);
     }
     return 0;
 }
@@ -194,7 +197,8 @@ QString ForwardManager::doc()
     return "Available DataProcessors\n\n" + LineSplitProcessor::doc()
             + Gaps2MsfProcessor::doc() +  Gaps2GpsProcessor::doc()
             + Gaps2PraveProcessor::doc() + Ais2GpsProcessor::doc()
-            + Ranger2GapsProcessor::doc() + MiniPos2GpsProcessor::doc();
+            + Ranger2GapsProcessor::doc() + MiniPos2GpsProcessor::doc()
+            + MiniPos2DepthProcessor::doc();
 }
 
 void ForwardManager::setMonitor(bool mon)
