@@ -33,6 +33,7 @@ else {
 HEADERS += ais2gpsprocessor.h \
     gaps2praveprocessor.h \
     gaps2gpsprocessor.h \
+    minipos2gpsprocessor.h \
     linesplitprocessor.h \
     gaps2msfprocessor.h \
     ranger2gapsprocessor.h \
@@ -43,6 +44,7 @@ HEADERS += ais2gpsprocessor.h \
 SOURCES += ais2gpsprocessor.cpp \
     gaps2praveprocessor.cpp \
     gaps2gpsprocessor.cpp \
+    minipos2gpsprocessor.cpp \
     linesplitprocessor.cpp \
     gaps2msfprocessor.cpp \
     ranger2gapsprocessor.cpp \
