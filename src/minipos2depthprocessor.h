@@ -24,6 +24,7 @@ public:
 
 private:
     NmeaRecord  mPKEL;
+    NmeaRecord  mDBT;
 
     bool        mUseDepth;
 };
