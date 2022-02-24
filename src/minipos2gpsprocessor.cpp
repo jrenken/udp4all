@@ -76,7 +76,7 @@ QList<QByteArray> MiniPos2GpsProcessor::processData(const QByteArray& data)
                 mRMC[4] = n[3];
                 mRMC[5] = n[4];
                 mRMC[6] = n[5];
-                mRMC.setField(7, n.toDouble(9) * 1.943844, 1);
+                mRMC.setField(7, qAbs(n.toDouble(9) * 1.943844), 1);
                 mRMC[8] = n[8];
                 mRMC[9] = QDate::currentDate().toString("ddMMyy").toLatin1();
 
@@ -84,8 +84,8 @@ QList<QByteArray> MiniPos2GpsProcessor::processData(const QByteArray& data)
             }
             if (mSendVTG) {
                 mVTG[1] = n[8];
-                mVTG.setField(7, n.toDouble(9) * 1.943844, 2);
-                mVTG.setField(9, n.toDouble(9) * 3.6, 2);
+                mVTG.setField(5, qAbs(n.toDouble(9) * 1.943844), 2);
+                mVTG.setField(7, qAbs(n.toDouble(9) * 3.6), 2);
                 out.append(mVTG.sentence(true));
             }
         } else
