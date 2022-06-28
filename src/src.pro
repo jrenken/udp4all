@@ -66,6 +66,10 @@ DEFINES += GITHASH=$$GITHASH \
     GITDATE="\'$$GITDATE\'"
 unix { 
     target.path = /usr/local/bin
-    INSTALLS += target
+    icon.path = /usr/local/share/icons
+    icon.files = images/udp4all.png
+    desktop.path = /usr/local/share/applications
+    desktop.files = ../etc/udp4all.desktop
+    INSTALLS += target icon desktop
 }
     

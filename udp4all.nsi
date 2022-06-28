@@ -2,6 +2,7 @@
 ;Basic Example Script
 ;Written by Joost Verburg
 
+Unicode True
 ;--------------------------------
 ;Include Modern UI
 
@@ -11,8 +12,8 @@
 ;General
 
   ;Name and file
-  Name "udp4all-1.0.0"
-  OutFile "udp4all-1.0.0.exe"
+  Name "udp4all-1.0.1"
+  OutFile "udp4all-1.0.1.exe"
   Icon "src\images\udp4all.ico"
   XPStyle on
   
@@ -53,7 +54,7 @@
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" ""
   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright Marum"
   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "udp4all"
-  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "1.0.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "1.0.1"
 
 ;--------------------------------
 
@@ -76,15 +77,19 @@ Section "udp4all" SecDummy
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpcre-1.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/zlib1.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libbz2.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libzstd.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libintl-8.dll
-    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libcrypto-1_1-x64.dll
-    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libssl-1_1-x64.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libcrypto-3-x64.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libssl-3-x64.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libharfbuzz-0.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpng16-16.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libfreetype-6.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libglib-2.0-0.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libpng16-16.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/libiconv-2.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/icuuc66.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/icuin66.dll
+    File $%MXE%/usr/x86_64-w64-mingw32.shared/bin/icudt66.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Core.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Gui.dll
     File $%MXE%/usr/x86_64-w64-mingw32.shared/qt5/bin/Qt5Network.dll

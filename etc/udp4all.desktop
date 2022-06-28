@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=udp4all
+Version=1.1.0
+GenericName=UDP Gateway and dataprocessor
+GenericName[de]=UDP Gateway unfd Datenprozessor
+Comment=UDP Gateway
+Exec=udp4all
+Icon=udp4all.png
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Networking;
