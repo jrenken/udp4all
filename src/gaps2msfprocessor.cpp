@@ -59,7 +59,7 @@ QList<QByteArray> Gaps2MsfProcessor::processData(const QByteArray& data)
         } else if (n.header() == "$PTSAH") {
             mMsf[10] = n[2];
             out.append(mMsf.sentence(true));
-        } else if (n.header() == "$HEHDT") {
+        } else if (n.header().right(3) == "HDT") {
             mMsf[10] = n[1];
             out.append(mMsf.sentence(true));
         }
